@@ -49,24 +49,21 @@ fs.readFile('../../../import/poset1.csv', function (err, data) {
 		var o ={};
 		var row = rows[i];
 		row = row.split(';');
-		//if(i==6) console.log(row);
 		o.num  = parseInt(row[0]);
 		o.type = row[1];
 		o.date = row[2];
-		o.link = row[3].replace(/\\\\/g", "/");
+		o.link = row[3].substr(12).trim();
 		visits.push(o);
 	}
 	console.log(visits.length);
-	console.log(rows[6]);
-	console.log(visits[5]);
-	// Vis.save(visits, function(err, docs) { 
-		// if(err) console.log(err);
-		// console.log("save %s docs", visits.length);
+	Vis.save(visits, function(err, docs) { 
+		if(err) console.log(err);
+		console.log("save %s docs", visits.length);
 		
-		// Vis.find({num: 31419}, function (err, docs) {
-			// console.log(docs);
-		// });		
-	// });
+		Vis.find({num: 31419}, function (err, docs) {
+			console.log(docs);
+		});		
+	});
 }); 
 
 // var s = new Date();
