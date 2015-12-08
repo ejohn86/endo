@@ -4,7 +4,7 @@ var Datastore = require('nedb')
 // You can issue commands right away
 var patients = [];
 
-fs.readFile('karta1.csv', function (err, data) {
+fs.readFile('../../../import/karta1.csv', function (err, data) {
   if (err) throw err;
   var str = data.toString();
   

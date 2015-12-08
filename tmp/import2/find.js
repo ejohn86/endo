@@ -1,6 +1,6 @@
 ﻿var LinvoDB = require("linvodb3");
 LinvoDB.defaults.store = { db: require("medeadown") };
-LinvoDB.dbPath = process.cwd(); 
+LinvoDB.dbPath = process.cwd()+"/db/";
 
 var Doc = new LinvoDB("patients", { /* schema, can be empty */ });
 
@@ -21,9 +21,9 @@ var  hostname = '127.0.0.1';
 var port = 1337;
 
 http.createServer((req, res) => {
-	var reqNum = decodeURIComponent(req.url.replace("/", "").toString());
+	var reqNum = decodeURIComponent(req.url.replace("/", "").toString()).toUpperCase();
 	console.log(decodeURIComponent(reqNum));
-	var s = new Date();
+	var s = new Date(); 
   Doc.find({fn: reqNum}, function(err, docs){
 	res.writeHead(200, { 'Content-Type': 'text/plain' });
 	res.end(JSON.stringify(docs));
