@@ -1,3 +1,4 @@
 node_modules/*
 !node_modules/.gitkeep
 *.log
+tmp/import2/node_modules/
