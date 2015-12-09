@@ -5,12 +5,12 @@ var visits = [];
 
 var LinvoDB = require("linvodb3");
 LinvoDB.defaults.store = { db: require("medeadown") };
-LinvoDB.dbPath = process.cwd()+"/db/"; 
+LinvoDB.dbPath = process.cwd()+"/../../db/"; 
 var Doc = new LinvoDB("patients", { /* schema, can be empty */ });
 var Vis = new LinvoDB("visits", {});
 
 /// import patient db
-/*fs.readFile('../../../import/karta1.csv', function (err, data) {
+fs.readFile('../../../import/karta1.csv', function (err, data) {
   if (err) throw err;
   var str = data.toString();
   
@@ -38,7 +38,7 @@ var Vis = new LinvoDB("visits", {});
 		if(err) console.log(err);
 		console.log("save %s docs", patients.length);
 	});
-}); */
+}); 
 /// import visit db
 fs.readFile('../../../import/poset1.csv', function (err, data) {
   if (err) throw err;

@@ -4,10 +4,6 @@ LinvoDB.dbPath = process.cwd()+"/db/";
 
 var Doc = new LinvoDB("patients", { /* schema, can be empty */ });
 
-// Doc.ensureIndex({ fieldName: "fn", unique: false }, function(e){
-	// console.log(e);
-	
-// });
 
 // var s = new Date();
 	// Doc.find({fn: 'ИВАНОВ'}, function (err, docs) {
@@ -24,7 +20,7 @@ http.createServer((req, res) => {
 	var reqNum = decodeURIComponent(req.url.replace("/", "").toString()).toUpperCase();
 	console.log(decodeURIComponent(reqNum));
 	var s = new Date(); 
-  Doc.find({fn: reqNum}, function(err, docs){
+  Doc.find({fn: {$regex: new RegExp("^" + reqNum)}}, function(err, docs){
 	res.writeHead(200, { 'Content-Type': 'text/plain' });
 	res.end(JSON.stringify(docs));
 	console.log(docs);
