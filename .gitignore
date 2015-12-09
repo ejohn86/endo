@@ -4,3 +4,4 @@ node_modules/*
 tmp/import2/node_modules/
 tmp/import2/db/
 db/
+!db/.gitkeep
