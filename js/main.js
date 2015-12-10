@@ -21,21 +21,33 @@ App.loadTemplate = function(view, data, target) {
 };
 
 App.test = function() {
-		var LinvoDB = require("linvodb3");
-		LinvoDB.defaults.store = {
-			db: require("medeadown")
-		};
-		LinvoDB.dbPath = process.cwd() + "/db/";
-		var Doc = new LinvoDB("patients", { /* schema, can be empty */ });
+	
+	var LinvoDB = require("linvodb3");
+	LinvoDB.defaults.store = {
+		db: require("medeadown")
+	};
+	LinvoDB.dbPath = process.cwd() + "/db/";
+	App.Doc = new LinvoDB("patients", { /* schema, can be empty */ });
+
+	App.Doc.find({
+		num: 1
+	}, function(err, docs) {
+		alert(JSON.stringify(docs));
+	});
+
+	
+	var inp = document.getElementById('find-input');
+	var btn = document.getElementById('btn');
+	btn.onclick = function() {
 		var s = new Date();
-		var reqNum = 'семиволос'.toUpperCase();
-		Doc.find({
+		var reqNum = inp.value.toUpperCase();
+		App.Doc.find({
 			fn: {
 				$regex: new RegExp("^" + reqNum)
 			}
 		}, function(err, docs) {
-			if(err) console.log(err);
-			alert(docs);
-			console.log("Время поиска: %s", new Date() - s);
+			if (err) console.log(err);
+			alert(docs.length);
 		});
+	}
 }
