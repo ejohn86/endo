@@ -5,7 +5,8 @@
   "main": "app.js",
   "dependencies": {
     "linvodb3": "git+ssh://git@github.com/Ivshti/linvodb3.git",
-    "medeadown": "^1.1.8"
+    "medeadown": "^1.1.8",
+    "nedb": "^1.5.0"
   },
   "devDependencies": {},
   "scripts": {

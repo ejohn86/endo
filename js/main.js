@@ -1,4 +1,11 @@
+var gui = require("nw.gui");
+var win = gui.Window.get();
+win.showDevTools();
+	
 var App = {};
+var Pat = require('./js/db.js').Pat;
+
+
 
 App.init = function() {
 	App.loadTemplate('app', {
@@ -21,33 +28,23 @@ App.loadTemplate = function(view, data, target) {
 };
 
 App.test = function() {
-	
-	var LinvoDB = require("linvodb3");
-	LinvoDB.defaults.store = {
-		db: require("medeadown")
-	};
-	LinvoDB.dbPath = process.cwd() + "/db/";
-	App.Doc = new LinvoDB("patients", { /* schema, can be empty */ });
-
-	App.Doc.find({
-		num: 1
-	}, function(err, docs) {
-		alert(JSON.stringify(docs));
-	});
-
-	
+	Pat.find({num:1}, function(err, docs) {
+			if (err) console.log(err);
+			console.log("first find");
+		});
 	var inp = document.getElementById('find-input');
 	var btn = document.getElementById('btn');
 	btn.onclick = function() {
-		var s = new Date();
+		var s = new Date(),t;
 		var reqNum = inp.value.toUpperCase();
-		App.Doc.find({
+		Pat.find({
 			fn: {
 				$regex: new RegExp("^" + reqNum)
 			}
 		}, function(err, docs) {
 			if (err) console.log(err);
-			alert(docs.length);
+			t = new Date() -s;
+			alert(docs.length + ": " + t );
 		});
 	}
 }

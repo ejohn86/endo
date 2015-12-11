@@ -8,6 +8,7 @@
     "async": "^1.5.0",
     "linvodb3": "git+ssh://git@github.com/Ivshti/linvodb3.git",
     "medeadown": "^1.1.8",
+    "nedb": "^1.5.0",
     "swig": "^1.4.2"
   }
 }

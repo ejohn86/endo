@@ -1,8 +1,10 @@
 var fs = require('fs');
 var Datastore = require('nedb')
-  , db = new Datastore({ filename: './nedb/patient.db', autoload: true });
+  , db = new Datastore({ filename: './db/patient.db', autoload: true }),
+	vis = new  Datastore({ filename: './db/visit.db', autoload: true });
 // You can issue commands right away
 var patients = [];
+var visits = [];
 
 fs.readFile('../../../import/karta1.csv', function (err, data) {
   if (err) throw err;
@@ -30,3 +32,26 @@ fs.readFile('../../../import/karta1.csv', function (err, data) {
 	// Doc.ensureIndex({ fieldName: "fn" });
 }); 
 
+fs.readFile('../../../import/poset1.csv', function (err, data) {
+  if (err) throw err;
+  var str = data.toString();
+  
+	var rows = str.split('\n');
+	for(var i=1, l = rows.length; i<l-1; i++){
+		var o ={};
+		var row = rows[i];
+		row = row.split(';');
+		o.num  = parseInt(row[0]);
+		o.type = row[1];
+		o.date = row[2];
+		o.link = row[3].substr(12).trim();
+		visits.push(o);
+	}
+	console.log(visits.length);
+	vis.insert(visits, function(err, docs) { 
+		if(err) console.log(err);
+		vis.find({num: 31419}, function (err, docs) {
+			console.log(docs);
+		});		
+	});
+}); 
