@@ -1,13 +1,9 @@
-/* Reset */
-html, body, #mainView {
-width: 100%; height: 100%; margin: 0; padding: 0;
-}
 
-div#wrapper {
-	padding: 10px;
-	width: 95%;
-}
 
-#find-input{
+/*#find-input{
 	width: 100%;
+}*/
+
+#main-view{
+	min-width: 800px;
 }

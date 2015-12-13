@@ -1,7 +1,7 @@
 var gui = require("nw.gui");
 var win = gui.Window.get();
-//win.showDevTools();
-	
+win.showDevTools();
+
 var App = {};
 var Pat = require('./js/db.js').Pat;
 
@@ -31,14 +31,15 @@ App.test = function() {
 	var inp = document.getElementById('find-input');
 	var btn = document.getElementById('btn');
 	btn.onclick = function() {
-		var s = new Date(),t;
+		var s = new Date(),
+			t;
 		var reqNum = inp.value.toUpperCase();
 		Pat.find({
-			fn: /reqNum/
+			fn: new RegExp(reqNum)
 		}, function(err, docs) {
 			if (err) console.log(err);
-			t = new Date() -s;
-			alert(docs.length + ": " + t );
+			t = new Date() - s;
+			alert(docs.length + ": " + t);
 		});
 	}
 }
