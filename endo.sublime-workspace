@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"min",
+				"min-width"
+			],
+			[
 				"wid",
 				"width"
 			],
@@ -27,7 +31,23 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 381,
+				"buffer_size": 436,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 215,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "css/style.css",
+			"settings":
+			{
+				"buffer_size": 68,
 				"line_ending": "Windows"
 			}
 		},
@@ -35,7 +55,7 @@
 			"file": "js/main.js",
 			"settings":
 			{
-				"buffer_size": 890,
+				"buffer_size": 900,
 				"line_ending": "Unix"
 			}
 		},
@@ -43,40 +63,8 @@
 			"file": "view/app.html",
 			"settings":
 			{
-				"buffer_size": 162,
+				"buffer_size": 587,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "package.json",
-			"settings":
-			{
-				"buffer_size": 179,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "js/db.js",
-			"settings":
-			{
-				"buffer_size": 390,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": ".gitignore",
-			"settings":
-			{
-				"buffer_size": 103,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "css/style.css",
-			"settings":
-			{
-				"buffer_size": 163,
-				"line_ending": "Windows"
 			}
 		}
 	],
@@ -138,19 +126,22 @@
 	"expanded_folders":
 	[
 		"/D/docs/endo/nw/app",
+		"/D/docs/endo/nw/app/css",
 		"/D/docs/endo/nw/app/js",
+		"/D/docs/endo/nw/app/js/vendor",
 		"/D/docs/endo/nw/app/views"
 	],
 	"file_history":
 	[
 		"/D/docs/endo/nw/app/package.json",
+		"/D/docs/endo/nw/app/js/db.js",
+		"/D/docs/endo/nw/app/.gitignore",
+		"/D/docs/endo/nw/app/css/style.css",
 		"/D/docs/endo/nw/app/js/main.js",
 		"/C/Users/Sony/AppData/Roaming/Sublime Text 3/Packages/User/JsFormat.sublime-settings",
 		"/C/Users/Sony/AppData/Roaming/Sublime Text 3/Packages/JsFormat/JsFormat.sublime-settings",
-		"/D/docs/endo/nw/app/css/style.css",
 		"/D/docs/endo/nw/app/README.md",
 		"/D/docs/endo/nw/app/js/nativeui.js",
-		"/D/docs/endo/nw/app/.gitignore",
 		"/C/Users/Sony/AppData/Roaming/Sublime Text 3/Packages/User/nw-js.sublime-build",
 		"/D/docs/endo/nw/test/window.html",
 		"/D/docs/endo/nw/test/package.json",
@@ -180,6 +171,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			">\n",
 			"\"></",
 			"js",
 			"</p>",
@@ -212,15 +204,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 381,
+						"buffer_size": 436,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								381,
-								381
+								401,
+								410
 							]
 						],
 						"settings":
@@ -231,37 +223,34 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "js/main.js",
+					"file": "package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 890,
+						"buffer_size": 215,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								765,
-								765
-							],
-							[
-								890,
-								890
+								81,
+								81
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 225.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -269,24 +258,24 @@
 				},
 				{
 					"buffer": 2,
-					"file": "view/app.html",
+					"file": "css/style.css",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 162,
+						"buffer_size": 68,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								68,
+								68
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
+							"syntax": "Packages/CSS/CSS.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -297,24 +286,24 @@
 				},
 				{
 					"buffer": 3,
-					"file": "package.json",
+					"file": "js/main.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 179,
+						"buffer_size": 900,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								176,
-								176
+								57,
+								57
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
@@ -326,87 +315,30 @@
 				},
 				{
 					"buffer": 4,
-					"file": "js/db.js",
+					"file": "view/app.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 390,
+						"buffer_size": 587,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								347,
-								347
+								587,
+								587
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/HTML/HTML.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": ".gitignore",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 103,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "css/style.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 163,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								163,
-								163
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
 					"type": "text"
 				}
 			]

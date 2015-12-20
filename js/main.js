@@ -1,6 +1,6 @@
 var gui = require("nw.gui");
 var win = gui.Window.get();
-win.showDevTools();
+//win.showDevTools();
 
 var App = {};
 var Pat = require('./js/db.js').Pat;
