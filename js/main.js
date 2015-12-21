@@ -23,7 +23,7 @@ App.loadTemplate = function(view, data, target) {
 	var swig = require('swig'),
 		fileName = 'view/' + view + '.html';
 	var template = swig.renderFile(fileName, data || {});
-	console.log(template);
+	// console.log(template);
 	if (target)
 		return $(target).html(template);
 	return template;
@@ -74,16 +74,18 @@ App.search = function(str, cb) {
 	var str = str || '';
 	if (str.length == 0) {
 		cb(null, []);
+		alert('Поиск пустой')
+	} else {
+		var searchArr = str.split(/\s+/);
+		Pat.find({
+			fn: new RegExp('^' + searchArr[0], 'i')
+		}, function(err, docs) {
+			if (err) {
+				console.log(err);
+				cb(err, null);
+			}
+			cb(null, docs)
+				// alert(docs.length + ": " + t);
+		});
 	}
-	var searchArr = str.split(/\s+/);
-	Pat.find({
-		fn: new RegExp('^' + searchArr[0], 'i')
-	}, function(err, docs) {
-		if (err) {
-			console.log(err);
-			cb(err, null);
-		}
-		cb(null, docs)
-			// alert(docs.length + ": " + t);
-	});
 }

@@ -1,8 +1,13 @@
-<table>
-	{% for item in seq -%}{{ item }}
+<table id="find-result" class="table table-bordered table-condensed">
+	{% for item in data -%}
 	<tr>
-		<td>123</td><td>345</td>
+		<td>{{ item.fn }}</td>
+		<td>{{ item.sn }}</td> 
+		<td>{{ item.tn }}</td>
+		<td>{{ item.gen }}</td>
+		<td>{{ item.birth }}</td>
+		<td>{{ item.addr }}</td>
 	</tr>	
 	{%- endfor %}	
 </table>
-{{ data|json }}
+<!-- {{ data|json }} -->
