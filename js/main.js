@@ -58,7 +58,7 @@ App.events = function() {
 				//alert(JSON.stringify(res));
 			});
 		}
-		if(inp.value.length > 3){
+		if (inp.value.length > 3) {
 			var inpValue = inp.value;
 			App.search(inpValue, function(err, res) {
 				if (err) console.log(err);
@@ -88,20 +88,28 @@ App.search = function(str, cb) {
 		var l = searchArr.length;
 		var findObj = {};
 
-		if(l == 1){
+		if (l == 1) {
 			findObj.fn = new RegExp('^' + searchArr[0], 'i');
 		}
-		if(l == 2){
+		if (l == 2) {
 			findObj.fn = new RegExp('^' + searchArr[0] + "$", 'i'); // полная фамилия
 			findObj.sn = new RegExp('^' + searchArr[1], 'i');
 		}
-		if(l >= 3) {
+		if (l >= 3) {
 			findObj.fn = new RegExp('^' + searchArr[0] + "$", 'i'); // полная фамилия
-			findObj.sn = new RegExp('^' + searchArr[1]+ "$", 'i'); // полное имя
+			findObj.sn = new RegExp('^' + searchArr[1] + "$", 'i'); // полное имя
 			findObj.tn = new RegExp('^' + searchArr[2], 'i');
 		}
 
-		Pat.find(findObj, function(err, docs) {
+		/*Pat.find(findObj, function(err, docs) {
+			if (err) {
+				console.log(err);
+				cb(err, null);
+			}
+			cb(null, docs)
+				// alert(docs.length + ": " + t);
+		});*/
+		Pat.find(findObj).limit(10).exec(function(err, docs) {
 			if (err) {
 				console.log(err);
 				cb(err, null);
@@ -109,5 +117,21 @@ App.search = function(str, cb) {
 			cb(null, docs)
 				// alert(docs.length + ": " + t);
 		});
+		// that = this;
+		// that.onChangeInterval = null;
+		//   	clearInterval(that.onChangeInterval);
+
+		//       if (that.currentValue !== that.el.val()) {
+		//           that.findBestHint();
+		//           if (that.options.deferRequestBy > 0) {
+		//               // Defer lookup in case when value changes very quickly:
+		//               that.onChangeInterval = setInterval(function () {
+		//                   that.onValueChange();
+		//               }, that.options.deferRequestBy);
+		//           } else {
+		//               that.onValueChange();
+		//           }
+		//       }
+		// https://github.com/devbridge/jQuery-Autocomplete/blob/master/dist/jquery.autocomplete.js
 	}
 }

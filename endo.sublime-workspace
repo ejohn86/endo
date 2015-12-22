@@ -4,16 +4,20 @@
 		"selected_items":
 		[
 			[
+				"pad",
+				"padding"
+			],
+			[
+				"re",
+				"reqNum"
+			],
+			[
 				"min",
 				"min-width"
 			],
 			[
 				"wid",
 				"width"
-			],
-			[
-				"pad",
-				"padding-bottom"
 			],
 			[
 				"padding-",
@@ -36,10 +40,26 @@
 			}
 		},
 		{
+			"file": "js/main.js",
+			"settings":
+			{
+				"buffer_size": 1783,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "view/find-result.html",
+			"settings":
+			{
+				"buffer_size": 315,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "package.json",
 			"settings":
 			{
-				"buffer_size": 215,
+				"buffer_size": 214,
 				"line_ending": "Unix"
 			}
 		},
@@ -47,23 +67,15 @@
 			"file": "css/style.css",
 			"settings":
 			{
-				"buffer_size": 68,
+				"buffer_size": 90,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/main.js",
-			"settings":
-			{
-				"buffer_size": 900,
-				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "view/app.html",
 			"settings":
 			{
-				"buffer_size": 587,
+				"buffer_size": 438,
 				"line_ending": "Unix"
 			}
 		}
@@ -125,14 +137,17 @@
 	},
 	"expanded_folders":
 	[
-		"/D/docs/endo/nw/app",
-		"/D/docs/endo/nw/app/css",
-		"/D/docs/endo/nw/app/js",
-		"/D/docs/endo/nw/app/js/vendor",
-		"/D/docs/endo/nw/app/views"
+		"/C/endo/nw/app",
+		"/C/endo/nw/app/css",
+		"/C/endo/nw/app/js",
+		"/C/endo/nw/app/view"
 	],
 	"file_history":
 	[
+		"/C/endo/nw/app/view/find-result.html",
+		"/C/endo/nw/app/package.json",
+		"/C/endo/nw/app/css/style.css",
+		"/C/endo/nw/app/js/main.js",
 		"/D/docs/endo/nw/app/package.json",
 		"/D/docs/endo/nw/app/js/db.js",
 		"/D/docs/endo/nw/app/.gitignore",
@@ -195,7 +210,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -211,8 +226,67 @@
 						"selection":
 						[
 							[
-								401,
-								410
+								418,
+								418
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1783,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1781,
+								1781
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1202.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "view/find-result.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 315,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								67,
+								67
 							]
 						],
 						"settings":
@@ -223,24 +297,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 3,
 					"file": "package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 215,
+						"buffer_size": 214,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								81,
-								81
+								80,
+								80
 							]
 						],
 						"settings":
@@ -257,20 +331,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "css/style.css",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 68,
+						"buffer_size": 90,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								68,
-								68
+								90,
+								90
 							]
 						],
 						"settings":
@@ -285,60 +359,32 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "js/main.js",
+					"buffer": 5,
+					"file": "view/app.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 900,
+						"buffer_size": 438,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								57,
-								57
+								430,
+								419
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "view/app.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 587,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								587,
-								587
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
