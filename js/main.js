@@ -58,6 +58,14 @@ App.events = function() {
 				//alert(JSON.stringify(res));
 			});
 		}
+		if(inp.value.length > 3){
+			var inpValue = inp.value;
+			App.search(inpValue, function(err, res) {
+				if (err) console.log(err);
+				App.printResult(res);
+				//alert(JSON.stringify(res));
+			});
+		}
 		// Отменяем действие браузера
 		return false;
 	}
@@ -74,12 +82,26 @@ App.search = function(str, cb) {
 	var str = str || '';
 	if (str.length == 0) {
 		cb(null, []);
-		alert('Поиск пустой')
+		//alert('Поиск пустой')
 	} else {
 		var searchArr = str.split(/\s+/);
-		Pat.find({
-			fn: new RegExp('^' + searchArr[0], 'i')
-		}, function(err, docs) {
+		var l = searchArr.length;
+		var findObj = {};
+
+		if(l == 1){
+			findObj.fn = new RegExp('^' + searchArr[0], 'i');
+		}
+		if(l == 2){
+			findObj.fn = new RegExp('^' + searchArr[0] + "$", 'i'); // полная фамилия
+			findObj.sn = new RegExp('^' + searchArr[1], 'i');
+		}
+		if(l >= 3) {
+			findObj.fn = new RegExp('^' + searchArr[0] + "$", 'i'); // полная фамилия
+			findObj.sn = new RegExp('^' + searchArr[1]+ "$", 'i'); // полное имя
+			findObj.tn = new RegExp('^' + searchArr[2], 'i');
+		}
+
+		Pat.find(findObj, function(err, docs) {
 			if (err) {
 				console.log(err);
 				cb(err, null);

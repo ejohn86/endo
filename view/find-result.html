@@ -1,6 +1,14 @@
 <table id="find-result" class="table table-bordered table-condensed">
+	<tr id='res-table-head'>
+		<td>Фамилия</td>
+		<td>Имя</td>
+		<td>Отчество</td>
+		<td>Пол</td>
+		<td>Дата рождения</td>
+		<td>Адрес</td>
+	</tr>
 	{% for item in data -%}
-	<tr>
+	<tr id="{{ item.num }}">
 		<td>{{ item.fn }}</td>
 		<td>{{ item.sn }}</td> 
 		<td>{{ item.tn }}</td>

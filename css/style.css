@@ -8,3 +8,7 @@
 	min-width: 800px;
 	padding-top: 15px;
 }	
+
+#res-table-head td{
+	font-weight: bolder;
+}
