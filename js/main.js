@@ -58,7 +58,7 @@ App.events = function() {
 				//alert(JSON.stringify(res));
 			});
 		}
-		if (inp.value.length > 3) {
+		if (inp.value.length > 3 || inp.value.length == 0) {
 			var inpValue = inp.value;
 			App.search(inpValue, function(err, res) {
 				if (err) console.log(err);
@@ -73,9 +73,23 @@ App.events = function() {
 }
 
 App.printResult = function(data) {
+	data = App.printResult.formatData(data);
 	App.loadTemplate('find-result', {
 		data: data
 	}, "#find-result");
+}
+
+App.printResult.formatData = function(dataArr) {
+	//console.log(dataArr);
+	var ucFirst = function(str) {
+		return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+	}
+	return dataArr.map(function(item) {
+		item.fn = ucFirst(item.fn);
+		item.sn = ucFirst(item.sn);
+		item.tn = ucFirst(item.tn);
+		return item;
+	});
 }
 
 App.search = function(str, cb) {
@@ -101,15 +115,7 @@ App.search = function(str, cb) {
 			findObj.tn = new RegExp('^' + searchArr[2], 'i');
 		}
 
-		/*Pat.find(findObj, function(err, docs) {
-			if (err) {
-				console.log(err);
-				cb(err, null);
-			}
-			cb(null, docs)
-				// alert(docs.length + ": " + t);
-		});*/
-		Pat.find(findObj).limit(10).exec(function(err, docs) {
+		Pat.find(findObj).limit(10).sort({fn:1, sn: 1, tn: 1}).exec(function(err, docs) {
 			if (err) {
 				console.log(err);
 				cb(err, null);
