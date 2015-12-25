@@ -4,6 +4,7 @@ var win = gui.Window.get();
 
 var App = {};
 var Pat = require('./js/db.js').Pat;
+var Visit = require('./js/db.js').Visit;
 
 App.currentValue = '';
 
@@ -11,18 +12,18 @@ App.currentValue = '';
 App.onChangeInterval = null;
 App.deferRequestBy = 300;
 
-console.log(App.deferRequestBy);
+
 
 App.init = function() {
 	App.loadTemplate('app', {
-		title: 'Привет'
+		title: 'ma'
 	}, "#main-view");
-	App.test();
 }
 
 window.onload = function() {
 	App.init();
 	App.events();
+	App.test();
 }
 
 App.loadTemplate = function(view, data, target) {
@@ -45,6 +46,8 @@ App.events = function() {
 	that = this;
 	var inp = document.getElementById('find-input');
 	var btn = document.getElementById('btn');
+	var table = document.getElementById('find-result');
+
 	var value = inp.value;
 
 	// press find button
@@ -88,6 +91,28 @@ App.events = function() {
 		return false;
 	}
 
+
+	table.onclick = function(event) {
+		var target = event.target;
+
+		while (target.tagName  != 'TR') {
+			target = target.parentNode;
+		}
+		var id = target.getAttribute('data-toggle-id');
+		if (!id) return;
+
+		var elem = document.getElementById("full-" + id);
+		App.search.visitList(id, function(err, doc){
+			if(err) console.log(err);
+			App.printResult.visitList(doc, id);
+
+		});
+		// $(elem).fadeToggle("slow");
+		elem.hidden = !elem.hidden;
+
+	}
+
+
 }
 
 App.printResult = function(data) {
@@ -109,8 +134,14 @@ App.printResult.formatData = function(dataArr) {
 	});
 }
 
+App.printResult.visitList = function(visits, numPatient){
+	App.loadTemplate('visit-list', {
+		data: visits
+	}, "#full-" + numPatient);
+}
+
+
 App.search = function(str, cb) {
-	console.log('search')
 	var str = str || '';
 	if (str.length == 0) {
 		cb(null, []);
@@ -145,4 +176,14 @@ App.search = function(str, cb) {
 				// alert(docs.length + ": " + t);
 		});
 	}
+}
+
+App.search.visitList = function(numPatient, cb){
+	Visit.find({num: parseInt(numPatient)}).exec(function(err, docs){
+		if (err) {
+				console.log(err);
+				cb(err, null);
+			}
+			cb(null, docs)
+	});
 }

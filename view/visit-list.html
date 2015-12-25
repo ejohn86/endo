@@ -1,0 +1,14 @@
+<td colspan="4">
+	<div class="full-info">
+	{% if data.length %}
+		<ul>
+			{% for item in data -%}
+			<li>Дата: {{item.date}} Док: <a href="#">{{item.link}}</a></li>	
+			{%- endfor %}
+		</ul>
+	{% else %}
+  		<span>Данных нет</span>
+	{% endif %}	
+	</div>	
+</td>
+<!-- {{ data|json }}   -->

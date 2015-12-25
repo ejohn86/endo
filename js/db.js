@@ -12,5 +12,10 @@ var Pat = new Datastore({
 	autoload: true
 });
 
+var Visit = new Datastore({
+	filename: dbPath + 'visit.db',
+	autoload: true
+});
 
 exports.Pat = Pat;
+exports.Visit = Visit;

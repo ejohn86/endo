@@ -6,12 +6,14 @@
 		<td>Адрес</td>
 	</tr>
 	{% for item in data -%}
-	<tr id="{{ item.num }}">
+	<tr id="{{ item.num }}" data-toggle-id="{{ item.num }}">
 		<td class="res-table-fio">{{ item.fn }} {{ item.sn }} {{ item.tn }}</td>
 		<td>{{ item.gen }}</td>
 		<td>{{ item.birth }}</td>
 		<td>{{ item.addr }}</td>
+	</tr>
+	<tr id="full-{{ item.num }}" hidden>
 	</tr>	
 	{%- endfor %}	
-</table>
+	</table>
 <!-- {{ data|json }} -->
