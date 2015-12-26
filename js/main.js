@@ -37,7 +37,8 @@ App.loadTemplate = function(view, data, target) {
 };
 
 App.test = function() {
-
+	// gui.Shell.showItemInFolder('package.json');
+	gui.Shell.openExternal('https://github.com/rogerwang/node-webkit');
 }
 
 
@@ -45,20 +46,20 @@ App.test = function() {
 App.events = function() {
 	that = this;
 	var inp = document.getElementById('find-input');
-	var btn = document.getElementById('btn');
+	// var btn = document.getElementById('btn');
 	var table = document.getElementById('find-result');
 
 	var value = inp.value;
 
 	// press find button
-	btn.onclick = function() {
-		var inpValue = inp.value.toUpperCase();
-		App.search(inpValue, function(err, res) {
-			if (err) console.log(err);
-			App.printResult(res);
-			//alert(JSON.stringify(res));			
-		});
-	}
+	// btn.onclick = function() {
+	// 	var inpValue = inp.value.toUpperCase();
+	// 	App.search(inpValue, function(err, res) {
+	// 		if (err) console.log(err);
+	// 		App.printResult(res);
+	// 		//alert(JSON.stringify(res));			
+	// 	});
+	// }
 
 	// input listener
 	inp.onkeyup = function(e) {
@@ -95,19 +96,20 @@ App.events = function() {
 	table.onclick = function(event) {
 		var target = event.target;
 
-		while (target.tagName  != 'TR') {
+		while (target.tagName != 'TR') {
 			target = target.parentNode;
 		}
 		var id = target.getAttribute('data-toggle-id');
 		if (!id) return;
 
-		var elem = document.getElementById("full-" + id);
-		App.search.visitList(id, function(err, doc){
-			if(err) console.log(err);
+
+		App.search.patietnVisitList(id, function(err, doc) {
+			if (err) console.log(err);
 			App.printResult.visitList(doc, id);
 
 		});
 		// $(elem).fadeToggle("slow");
+		var elem = document.getElementById("full-" + id);
 		elem.hidden = !elem.hidden;
 
 	}
@@ -120,6 +122,15 @@ App.printResult = function(data) {
 	App.loadTemplate('find-result', {
 		data: data
 	}, "#find-result");
+	if (data.length == 1) {
+		var patientNum = data[0].num;
+		App.search.patietnVisitList(patientNum, function(err, doc) {
+			if (err) console.log(err);
+			App.printResult.visitList(doc, patientNum);
+		});
+		var elem = document.getElementById("full-" + patientNum);
+		elem.hidden = !elem.hidden;
+	}
 }
 
 App.printResult.formatData = function(dataArr) {
@@ -134,7 +145,7 @@ App.printResult.formatData = function(dataArr) {
 	});
 }
 
-App.printResult.visitList = function(visits, numPatient){
+App.printResult.visitList = function(visits, numPatient) {
 	App.loadTemplate('visit-list', {
 		data: visits
 	}, "#full-" + numPatient);
@@ -178,12 +189,14 @@ App.search = function(str, cb) {
 	}
 }
 
-App.search.visitList = function(numPatient, cb){
-	Visit.find({num: parseInt(numPatient)}).exec(function(err, docs){
+App.search.patietnVisitList = function(numPatient, cb) {
+	Visit.find({
+		num: parseInt(numPatient)
+	}).exec(function(err, docs) {
 		if (err) {
-				console.log(err);
-				cb(err, null);
-			}
-			cb(null, docs)
+			console.log(err);
+			cb(err, null);
+		}
+		cb(null, docs)
 	});
 }
