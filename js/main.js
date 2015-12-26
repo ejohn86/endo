@@ -4,19 +4,26 @@ var win = gui.Window.get();
 
 var App = {};
 var Pat = require('./js/db.js').Pat;
+var Visit = require('./js/db.js').Visit;
+
+App.currentValue = '';
+
+// defer request for fast change finded value
+App.onChangeInterval = null;
+App.deferRequestBy = 300;
 
 
 
 App.init = function() {
 	App.loadTemplate('app', {
-		title: 'Привет'
+		title: 'ma'
 	}, "#main-view");
-	App.test();
 }
 
 window.onload = function() {
 	App.init();
 	App.events();
+	App.test();
 }
 
 App.loadTemplate = function(view, data, target) {
@@ -33,11 +40,17 @@ App.test = function() {
 
 }
 
+
+// event listener for find input
 App.events = function() {
+	that = this;
 	var inp = document.getElementById('find-input');
 	var btn = document.getElementById('btn');
+	var table = document.getElementById('find-result');
 
-	// нажатие на кнопку поиск
+	var value = inp.value;
+
+	// press find button
 	btn.onclick = function() {
 		var inpValue = inp.value.toUpperCase();
 		App.search(inpValue, function(err, res) {
@@ -47,42 +60,91 @@ App.events = function() {
 		});
 	}
 
-	// нажатие enter
+	// input listener
 	inp.onkeyup = function(e) {
+		var value = inp.value;
+
+		// press Enter
 		e = e || window.event;
 		if (e.keyCode === 13) {
-			var inpValue = inp.value.toUpperCase();
-			App.search(inpValue, function(err, res) {
+			// var inpValue = inp.value;
+			App.search(value, function(err, res) {
 				if (err) console.log(err);
 				App.printResult(res);
 				//alert(JSON.stringify(res));
 			});
 		}
-		if (inp.value.length > 3) {
-			var inpValue = inp.value;
-			App.search(inpValue, function(err, res) {
-				if (err) console.log(err);
-				App.printResult(res);
-				//alert(JSON.stringify(res));
-			});
+		if (value.length > 3 || value.length == 0) {
+			clearInterval(that.onChangeInterval);
+			if (that.currentValue != value) {
+				that.onChangeInterval = setInterval(function() {
+					clearInterval(that.onChangeInterval);
+					that.currentValue = value;
+					App.search(value, function(err, res) {
+						if (err) console.log(err);
+						App.printResult(res);
+						//alert(JSON.stringify(res));
+					});
+				}, that.deferRequestBy);
+			}
 		}
-		// Отменяем действие браузера
 		return false;
 	}
+
+
+	table.onclick = function(event) {
+		var target = event.target;
+
+		while (target.tagName  != 'TR') {
+			target = target.parentNode;
+		}
+		var id = target.getAttribute('data-toggle-id');
+		if (!id) return;
+
+		var elem = document.getElementById("full-" + id);
+		App.search.visitList(id, function(err, doc){
+			if(err) console.log(err);
+			App.printResult.visitList(doc, id);
+
+		});
+		// $(elem).fadeToggle("slow");
+		elem.hidden = !elem.hidden;
+
+	}
+
 
 }
 
 App.printResult = function(data) {
+	data = App.printResult.formatData(data);
 	App.loadTemplate('find-result', {
 		data: data
 	}, "#find-result");
 }
 
+App.printResult.formatData = function(dataArr) {
+	var ucFirst = function(str) {
+		return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+	}
+	return dataArr.map(function(item) {
+		item.fn = ucFirst(item.fn);
+		item.sn = ucFirst(item.sn);
+		item.tn = ucFirst(item.tn);
+		return item;
+	});
+}
+
+App.printResult.visitList = function(visits, numPatient){
+	App.loadTemplate('visit-list', {
+		data: visits
+	}, "#full-" + numPatient);
+}
+
+
 App.search = function(str, cb) {
 	var str = str || '';
 	if (str.length == 0) {
 		cb(null, []);
-		//alert('Поиск пустой')
 	} else {
 		var searchArr = str.split(/\s+/);
 		var l = searchArr.length;
@@ -101,15 +163,11 @@ App.search = function(str, cb) {
 			findObj.tn = new RegExp('^' + searchArr[2], 'i');
 		}
 
-		/*Pat.find(findObj, function(err, docs) {
-			if (err) {
-				console.log(err);
-				cb(err, null);
-			}
-			cb(null, docs)
-				// alert(docs.length + ": " + t);
-		});*/
-		Pat.find(findObj).limit(10).exec(function(err, docs) {
+		Pat.find(findObj).limit(10).sort({
+			fn: 1,
+			sn: 1,
+			tn: 1
+		}).exec(function(err, docs) {
 			if (err) {
 				console.log(err);
 				cb(err, null);
@@ -117,21 +175,15 @@ App.search = function(str, cb) {
 			cb(null, docs)
 				// alert(docs.length + ": " + t);
 		});
-		// that = this;
-		// that.onChangeInterval = null;
-		//   	clearInterval(that.onChangeInterval);
-
-		//       if (that.currentValue !== that.el.val()) {
-		//           that.findBestHint();
-		//           if (that.options.deferRequestBy > 0) {
-		//               // Defer lookup in case when value changes very quickly:
-		//               that.onChangeInterval = setInterval(function () {
-		//                   that.onValueChange();
-		//               }, that.options.deferRequestBy);
-		//           } else {
-		//               that.onValueChange();
-		//           }
-		//       }
-		// https://github.com/devbridge/jQuery-Autocomplete/blob/master/dist/jquery.autocomplete.js
 	}
+}
+
+App.search.visitList = function(numPatient, cb){
+	Visit.find({num: parseInt(numPatient)}).exec(function(err, docs){
+		if (err) {
+				console.log(err);
+				cb(err, null);
+			}
+			cb(null, docs)
+	});
 }

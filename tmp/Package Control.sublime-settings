@@ -1,0 +1,18 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AutoFileName",
+		"BracketHighlighter",
+		"Emmet",
+		"GitGutter",
+		"Jade",
+		"JavaScriptNext - ES6 Syntax",
+		"JsFormat",
+		"Package Control",
+		"Pretty JSON"
+	]
+}

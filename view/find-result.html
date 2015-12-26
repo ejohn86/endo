@@ -1,21 +1,19 @@
 <table id="find-result" class="table table-bordered table-condensed">
-	<tr id='res-table-head'>
-		<td>Фамилия</td>
-		<td>Имя</td>
-		<td>Отчество</td>
+	<tr class='res-table-head'>
+		<td id='res-table-fio'>ФИО</td>
 		<td>Пол</td>
 		<td>Дата рождения</td>
 		<td>Адрес</td>
 	</tr>
 	{% for item in data -%}
-	<tr id="{{ item.num }}">
-		<td>{{ item.fn }}</td>
-		<td>{{ item.sn }}</td> 
-		<td>{{ item.tn }}</td>
+	<tr id="{{ item.num }}" data-toggle-id="{{ item.num }}">
+		<td class="res-table-fio">{{ item.fn }} {{ item.sn }} {{ item.tn }}</td>
 		<td>{{ item.gen }}</td>
 		<td>{{ item.birth }}</td>
 		<td>{{ item.addr }}</td>
+	</tr>
+	<tr id="full-{{ item.num }}" hidden>
 	</tr>	
 	{%- endfor %}	
-</table>
+	</table>
 <!-- {{ data|json }} -->
