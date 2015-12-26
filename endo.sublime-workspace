@@ -43,7 +43,7 @@
 			"file": "js/main.js",
 			"settings":
 			{
-				"buffer_size": 1783,
+				"buffer_size": 3304,
 				"line_ending": "Unix"
 			}
 		},
@@ -51,7 +51,7 @@
 			"file": "view/find-result.html",
 			"settings":
 			{
-				"buffer_size": 315,
+				"buffer_size": 479,
 				"line_ending": "Windows"
 			}
 		},
@@ -67,7 +67,7 @@
 			"file": "css/style.css",
 			"settings":
 			{
-				"buffer_size": 90,
+				"buffer_size": 134,
 				"line_ending": "Windows"
 			}
 		},
@@ -240,7 +240,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -249,15 +249,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1783,
+						"buffer_size": 3304,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1781,
-								1781
+								2847,
+								2861
 							]
 						],
 						"settings":
@@ -266,7 +266,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1202.0,
+						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -278,15 +278,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 315,
+						"buffer_size": 479,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								67,
-								67
+								0,
+								0
 							]
 						],
 						"settings":
@@ -297,7 +297,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -327,7 +327,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -336,15 +336,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 90,
+						"buffer_size": 134,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								90,
-								90
+								0,
+								0
 							]
 						],
 						"settings":
@@ -355,7 +355,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -384,7 +384,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
