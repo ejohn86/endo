@@ -1,0 +1,9 @@
+node_modules/*
+!node_modules/.gitkeep
+*.log
+tmp/import2/node_modules/
+tmp/import2/db/
+db/*
+!db/.gitkeep
+endo.sublime-project
+endo.sublime-workspace

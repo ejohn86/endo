@@ -1,5 +1,6 @@
 var gui = require("nw.gui");
 var win = gui.Window.get();
+var path = require('path');
 //win.showDevTools();
 
 var App = {};
@@ -38,7 +39,11 @@ App.loadTemplate = function(view, data, target) {
 
 App.test = function() {
 	// gui.Shell.showItemInFolder('package.json');
-	gui.Shell.openExternal('https://github.com/rogerwang/node-webkit');
+	// gui.Shell.openItem('../docs/doc/1/1004.doc');
+	//console.log(path.resolve('../docs/doc/1/'));
+	//console.log('Current directory: ' + process.cwd());
+
+	gui.Shell.openItem(path.resolve('../docs/doc/1/1004.doc'));
 }
 
 
