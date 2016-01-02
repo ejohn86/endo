@@ -21,3 +21,9 @@ td.res-table-fio{
 #find-result{
 	padding: 10px 15px 10px 15px;
 }
+
+#visit-list-table td{
+	border: 1px gray solid;
+	padding-left: 5px;
+	padding-right: 5px;
+}

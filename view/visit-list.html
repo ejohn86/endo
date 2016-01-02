@@ -1,15 +1,30 @@
-<td colspan="4">
-	<div class="full-info">
-	{% if data.length %}
-		<ul>
-			{% for item in data -%}
-			<li>Дата: {{item.date}} Док: <a href="#">{{item.link}}</a></li>	
-			{%- endfor %}
-		</ul>
-	{% else %}
-  		<span>Данных нет</span>
-	{% endif %}	
-	</div>	
+<td colspan="4">	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-6">
+				<div class="full-info">
+					{% if data.length %}
+					<table class='table table-condensed table-striped'>
+						{% for item in data -%}
+						<tr>
+							<td> {{item.date}} </td>
+							<td>{{item.typeName}} </td> 
+							<td><a href="#" data-doc-link='{{item.link}}'>{{item.link}}</a></td>	
+						</tr>
+						{%- endfor %}
+					</table>
+					{% else %}
+					<span>Данных нет</span>
+					{% endif %}	
+					<!-- {{ data|json }}  -->
+				</div>	
+			</div>
+			<div class="col-xs-6">
+				<button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> &nbsp;Новое обследование</button>
+			</div>
+		</div>
+	</div>
 </td>
-<!-- {{ data|json }}   -->
+
+
 

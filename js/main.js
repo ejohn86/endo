@@ -43,7 +43,7 @@ App.test = function() {
 	//console.log(path.resolve('../docs/doc/1/'));
 	//console.log('Current directory: ' + process.cwd());
 
-	gui.Shell.openItem(path.resolve('../docs/doc/1/1004.doc'));
+	// gui.Shell.openItem(path.resolve('../docs/doc/1/1004.doc'));
 }
 
 
@@ -97,9 +97,10 @@ App.events = function() {
 		return false;
 	}
 
-
+	// listener for open visit list on patient
 	table.onclick = function(event) {
 		var target = event.target;
+
 
 		while (target.tagName != 'TR') {
 			target = target.parentNode;
@@ -117,6 +118,15 @@ App.events = function() {
 		var elem = document.getElementById("full-" + id);
 		elem.hidden = !elem.hidden;
 
+	}
+
+	// visit link listener
+	document.onclick = function(event) {
+		var target = event.target;
+		if (!target.hasAttribute('data-doc-link')) return;
+		var link = target.getAttribute('data-doc-link');
+		App.openDoc(link);
+		return false;
 	}
 
 
@@ -151,6 +161,18 @@ App.printResult.formatData = function(dataArr) {
 }
 
 App.printResult.visitList = function(visits, numPatient) {
+	// 1 - фэгдс, 2 - фибробронхоскопия, 3 - колоноскопия	
+	var visits = visits;
+	var typeNames = {
+		"1": "фэгдс",
+		"2": "фибробронхоскопия",
+		"3": "колоноскопия"
+	}
+	visits.map(function(item) {
+		item.typeName = typeNames[item.type];
+		return item;
+	});
+
 	App.loadTemplate('visit-list', {
 		data: visits
 	}, "#full-" + numPatient);
@@ -204,4 +226,9 @@ App.search.patietnVisitList = function(numPatient, cb) {
 		}
 		cb(null, docs)
 	});
+}
+
+App.openDoc = function(link) {
+	var basePath = '../docs/doc/';
+	gui.Shell.openItem(path.resolve(basePath, link));
 }
