@@ -1,6 +1,7 @@
 var gui = require("nw.gui");
 var win = gui.Window.get();
 var path = require('path');
+var async = require('async');
 //win.showDevTools();
 
 var App = {};
@@ -137,11 +138,16 @@ App.printResult = function(data) {
 	App.loadTemplate('find-result', {
 		data: data
 	}, "#find-result");
+	// print visit list if find result is once
 	if (data.length == 1) {
 		var patientNum = data[0].num;
 		App.search.patietnVisitList(patientNum, function(err, doc) {
 			if (err) console.log(err);
 			App.printResult.visitList(doc, patientNum);
+			/*test count visits*/
+			// App.search.visitCount(patientNum,function(err, res){
+			// 	console.log(res);
+			// });
 		});
 		var elem = document.getElementById("full-" + patientNum);
 		elem.hidden = !elem.hidden;
@@ -161,15 +167,17 @@ App.printResult.formatData = function(dataArr) {
 }
 
 App.printResult.visitList = function(visits, numPatient) {
-	// 1 - фэгдс, 2 - фибробронхоскопия, 3 - колоноскопия	
 	var visits = visits;
 	var typeNames = {
 		"1": "фэгдс",
 		"2": "фибробронхоскопия",
 		"3": "колоноскопия"
 	}
+	var styleList = ['success', 'primary', 'warning'];
+
 	visits.map(function(item) {
 		item.typeName = typeNames[item.type];
+		item.style = styleList[parseInt(item.type) - 1];
 		return item;
 	});
 
@@ -225,6 +233,22 @@ App.search.patietnVisitList = function(numPatient, cb) {
 			cb(err, null);
 		}
 		cb(null, docs)
+	});
+}
+
+// return count visits group by type visit
+App.search.visitCount = function(numPatient, cb) {
+	App.search.patietnVisitList(numPatient, function(err, docs){
+		if(err) {
+			console.log(err);
+			cb(err, null);
+		}
+		var result = docs.reduce(function(sum, current){
+			sum[parseInt(current.type)-1]++;
+			return sum;
+		}, [0, 0, 0])
+		cb(null, result);
+
 	});
 }
 

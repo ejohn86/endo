@@ -7,6 +7,7 @@
 					<table class='table table-condensed table-striped'>
 						{% for item in data -%}
 						<tr>
+							<td><span class='label label-{{item.style}} visit-type'>&nbsp;</span></td>
 							<td> {{item.date}} </td>
 							<td>{{item.typeName}} </td> 
 							<td><a href="#" data-doc-link='{{item.link}}'>{{item.link}}</a></td>	
@@ -16,7 +17,7 @@
 					{% else %}
 					<span>Данных нет</span>
 					{% endif %}	
-					<!-- {{ data|json }}  -->
+					{{ data|json }} 
 				</div>	
 			</div>
 			<div class="col-xs-6">
