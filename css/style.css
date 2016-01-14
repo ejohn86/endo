@@ -27,3 +27,11 @@ td.res-table-fio{
 	padding-left: 5px;
 	padding-right: 5px;
 }
+
+.pointer{
+	cursor: pointer;
+}
+
+.edit-btn-wrapper{
+	width: 15px;
+}

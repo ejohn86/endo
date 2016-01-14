@@ -51,20 +51,9 @@ App.test = function() {
 App.events = function() {
 	that = this;
 	var inp = document.getElementById('find-input');
-	// var btn = document.getElementById('btn');
 	var table = document.getElementById('find-result');
 
 	var value = inp.value;
-
-	// press find button
-	// btn.onclick = function() {
-	// 	var inpValue = inp.value.toUpperCase();
-	// 	App.search(inpValue, function(err, res) {
-	// 		if (err) console.log(err);
-	// 		App.printResult(res);
-	// 		//alert(JSON.stringify(res));			
-	// 	});
-	// }
 
 	// input listener
 	inp.onkeyup = function(e) {
@@ -99,14 +88,14 @@ App.events = function() {
 
 	// listener for open visit list on patient
 	table.onclick = function(event) {
+		if (event.target.id == "find-result" || event.target.tagName == "TBODY") return;
 		var target = event.target;
-
-
 		while (target.tagName != 'TR') {
 			target = target.parentNode;
 		}
 		var id = target.getAttribute('data-toggle-id');
 		if (!id) return;
+
 
 
 		App.search.patietnVisitList(id, function(err, doc) {
@@ -129,6 +118,32 @@ App.events = function() {
 		return false;
 	}
 
+	//show edit btn 
+	table.onmouseover = function(event) {
+		var el = findEditElement(event);
+		if (el)
+			el.hidden = false;
+
+	}
+
+	table.onmouseout = function(event) {
+		var el = findEditElement(event);
+		if (el)
+			el.hidden = true;
+
+	}
+
+	findEditElement = function(event) {
+		if (event.target.id == "find-result" || event.target.tagName == "TBODY") return;
+		// console.log(event)
+		var target = event.target;
+		while (target.tagName != 'TR') {
+			target = target.parentNode;
+		}
+		var id = target.getAttribute('data-toggle-id');
+		if (!id) return;
+		return elem = document.getElementById('edit-btn-' + id);
+	}
 
 }
 

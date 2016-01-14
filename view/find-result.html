@@ -1,9 +1,10 @@
 <table id="find-result" class="table table-condensed">
 	<tr id='res-table-head'>
-		<td id='res-table-fio'>ФИО</td>
+		<td class="res-table-fio">ФИО</td>
 		<td>Пол</td>
 		<td>Дата рождения</td>
 		<td>Адрес</td>
+		<td>&nbsp;</td>
 	</tr>
 	{% for item in data -%}
 	<tr id="{{ item.num }}" data-toggle-id="{{ item.num }}">
@@ -11,6 +12,7 @@
 		<td>{{ item.gen }}</td>
 		<td>{{ item.birth }}</td>
 		<td>{{ item.addr }}</td>
+		<td><div class='edit-btn-wrapper'><div id='edit-btn-{{ item.num }}' class="pointer" hidden><span class="label label-default"><span class="glyphicon glyphicon-pencil" ></span></span></div></div></td>
 	</tr>
 	<tr id="full-{{ item.num }}" hidden>
 	</tr>	

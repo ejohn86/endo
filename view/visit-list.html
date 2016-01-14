@@ -7,7 +7,7 @@
 					<table class='table table-condensed table-striped'>
 						{% for item in data -%}
 						<tr>
-							<td> {{item.date}} </td>
+							<td><span class="glyphicon glyphicon-calendar"></span> {{item.date}} </td>
 							<td>{{item.typeName}} </td> 
 							<td><a href="#" data-doc-link='{{item.link}}'>{{item.link}}</a></td>	
 						</tr>
@@ -20,7 +20,7 @@
 				</div>	
 			</div>
 			<div class="col-xs-6">
-				<button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> &nbsp;Новое обследование</button>
+				<button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-file"></span> &nbsp;Новое обследование</button>
 			</div>
 		</div>
 	</div>
