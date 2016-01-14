@@ -134,36 +134,46 @@ App.events = function() {
 }
 
 App.printResult = function(data) {
-	data = App.printResult.formatData(data);
-	App.loadTemplate('find-result', {
-		data: data
-	}, "#find-result");
-	// print visit list if find result is once
-	if (data.length == 1) {
-		var patientNum = data[0].num;
-		App.search.patietnVisitList(patientNum, function(err, doc) {
-			if (err) console.log(err);
-			App.printResult.visitList(doc, patientNum);
-			/*test count visits*/
-			// App.search.visitCount(patientNum,function(err, res){
-			// 	console.log(res);
-			// });
-		});
-		var elem = document.getElementById("full-" + patientNum);
-		elem.hidden = !elem.hidden;
-	}
-}
-
-App.printResult.formatData = function(dataArr) {
+	// upper case first letter fio
 	var ucFirst = function(str) {
 		return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
 	}
-	return dataArr.map(function(item) {
+	data = data.map(function(item) {
 		item.fn = ucFirst(item.fn);
 		item.sn = ucFirst(item.sn);
 		item.tn = ucFirst(item.tn);
 		return item;
 	});
+
+	// add count data to patient list
+	var s = new Date();
+	async.map(data, function(item, cb) {
+			App.search.visitCount(item.num, function(err, count) {
+				if (err) {
+					console.log(err);
+					cb(err, null);
+				}
+				item.count = count;
+				cb(null, item);
+			});
+		},
+		function(err, data) {
+			//render result
+			console.log("request time: %s", new Date()-s); 
+			App.loadTemplate('find-result', {
+				data: data
+			}, "#find-result");
+			// print visit list if find result is once
+			if (data.length == 1) {
+				var patientNum = data[0].num;
+				App.search.patietnVisitList(patientNum, function(err, doc) {
+					if (err) console.log(err);
+					App.printResult.visitList(doc, patientNum);
+				});
+				var elem = document.getElementById("full-" + patientNum);
+				elem.hidden = !elem.hidden;
+			}
+		});
 }
 
 App.printResult.visitList = function(visits, numPatient) {
@@ -238,13 +248,13 @@ App.search.patietnVisitList = function(numPatient, cb) {
 
 // return count visits group by type visit
 App.search.visitCount = function(numPatient, cb) {
-	App.search.patietnVisitList(numPatient, function(err, docs){
-		if(err) {
+	App.search.patietnVisitList(numPatient, function(err, docs) {
+		if (err) {
 			console.log(err);
 			cb(err, null);
 		}
-		var result = docs.reduce(function(sum, current){
-			sum[parseInt(current.type)-1]++;
+		var result = docs.reduce(function(sum, current) {
+			sum[parseInt(current.type) - 1]++;
 			return sum;
 		}, [0, 0, 0])
 		cb(null, result);

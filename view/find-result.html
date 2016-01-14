@@ -1,5 +1,6 @@
 <table id="find-result" class="table table-condensed">
 	<tr id='res-table-head'>
+		<td></td>
 		<td id='res-table-fio'>ФИО</td>
 		<td>Пол</td>
 		<td>Дата рождения</td>
@@ -7,9 +8,10 @@
 	</tr>
 	{% for item in data -%}
 	<tr id="{{ item.num }}" data-toggle-id="{{ item.num }}">
+		<td>{{ item.count }}</td>
 		<td class="res-table-fio">{{ item.fn }} {{ item.sn }} {{ item.tn }}</td>
 		<td>{{ item.gen }}</td>
-		<td>{{ item.birth }}</td>
+		<td>{{ item.birth }}</td> 
 		<td>{{ item.addr }}</td>
 	</tr>
 	<tr id="full-{{ item.num }}" hidden>
