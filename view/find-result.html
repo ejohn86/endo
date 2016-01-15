@@ -1,7 +1,7 @@
 <table id="find-result" class="table table-condensed">
 	<tr id='res-table-head'>
 
-		<td></td>
+		<td>&nbsp;</td>
 		<td id='res-table-fio'>ФИО</td>
 		<td>Пол</td>
 		<td>Дата рождения</td>
@@ -10,7 +10,13 @@
 	</tr>
 	{% for item in data -%}
 	<tr id="{{ item.num }}" data-toggle-id="{{ item.num }}">
-		<td>{{ item.count }}</td>
+		<td>
+			<div id="visit-count-box">
+				{% if item.count[0] %}<span class='label label-success'>{{ item.count[0] }}</span>{% endif %}
+				{% if item.count[1] %}<span class='label label-primary'>{{ item.count[1] }}</span>{% endif %}
+				{% if item.count[2] %}<span class='label label-warning'>{{ item.count[2] }}</span>{% endif %}
+			</div>
+		</td>
 		<td class="res-table-fio">{{ item.fn }} {{ item.sn }} {{ item.tn }}</td>
 		<td>{{ item.gen }}</td>
 		<td>{{ item.birth }}</td> 

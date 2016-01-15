@@ -34,8 +34,16 @@ td.res-table-fio{
 
 .edit-btn-wrapper{
 	width: 15px;
+}
 
 .visit-type{
 	/*margin-right: 2px;*/
 
+}
+
+#visit-count-box{
+	display: inline-flex;
+}
+#visit-count-box span{
+	margin-right: 1px;
 }

@@ -161,7 +161,6 @@ App.printResult = function(data) {
 	});
 
 	// add count data to patient list
-	var s = new Date();
 	async.map(data, function(item, cb) {
 			App.search.visitCount(item.num, function(err, count) {
 				if (err) {
@@ -174,7 +173,6 @@ App.printResult = function(data) {
 		},
 		function(err, data) {
 			//render result
-			console.log("request time: %s", new Date()-s); 
 			App.loadTemplate('find-result', {
 				data: data
 			}, "#find-result");
