@@ -38,12 +38,11 @@ td.res-table-fio{
 
 .visit-type{
 	/*margin-right: 2px;*/
-
 }
 
-#visit-count-box{
+.visit-count-box{
 	display: inline-flex;
 }
-#visit-count-box span{
+.visit-count-box span{
 	margin-right: 1px;
 }

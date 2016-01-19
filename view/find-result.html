@@ -11,7 +11,7 @@
 	{% for item in data -%}
 	<tr id="{{ item.num }}" data-toggle-id="{{ item.num }}">
 		<td>
-			<div id="visit-count-box">
+			<div class="visit-count-box">
 				{% if item.count[0] %}<span class='label label-success'>{{ item.count[0] }}</span>{% endif %}
 				{% if item.count[1] %}<span class='label label-primary'>{{ item.count[1] }}</span>{% endif %}
 				{% if item.count[2] %}<span class='label label-warning'>{{ item.count[2] }}</span>{% endif %}

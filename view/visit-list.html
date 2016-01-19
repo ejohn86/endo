@@ -1,6 +1,8 @@
 <td colspan="5">	
+	<div class="panel panel-default">
+  	<div class="panel-body">
 	<div class="container-fluid">
-		<div class="row">
+  			<div class="row">
 			<div class="col-xs-6">
 				<div class="full-info">
 					{% if data.length %}
@@ -10,7 +12,14 @@
 							<td><span class='label label-{{item.style}} visit-type'>&nbsp;</span></td>
 							<td> {{item.date}} </td>
 							<td>{{item.typeName}} </td> 
-							<td><a href="#" data-doc-link='{{item.link}}'>{{item.link}}</a></td>	
+							<td>
+								<a href="#" data-doc-link='{{item.link}}'>{{item.link}}</a>									
+							</td>
+							{% if item.link %}	
+							<td class="pointer" data-toggle="tooltip"><span class="glyphicon glyphicon-list-alt" data-doc-link-browse='{{item.link}}'></span></td>
+							{% else %}
+							<td></td>
+							{% endif %}	
 						</tr>
 						{%- endfor %}
 					</table>
@@ -23,6 +32,8 @@
 			<div class="col-xs-6">
 				<button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-file"></span> &nbsp;Новое обследование</button>
 			</div>
+		</div>
+		</div>
 		</div>
 	</div>
 </td>

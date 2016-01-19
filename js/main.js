@@ -2,6 +2,7 @@ var gui = require("nw.gui");
 var win = gui.Window.get();
 var path = require('path');
 var async = require('async');
+var mammoth = require("mammoth");
 //win.showDevTools();
 
 var App = {};
@@ -9,7 +10,7 @@ var Pat = require('./js/db.js').Pat;
 var Visit = require('./js/db.js').Visit;
 
 App.currentValue = '';
-
+App.baseDocsPath = '../docs/doc/';
 // defer request for fast change finded value
 App.onChangeInterval = null;
 App.deferRequestBy = 300;
@@ -31,6 +32,7 @@ window.onload = function() {
 App.loadTemplate = function(view, data, target) {
 	var swig = require('swig'),
 		fileName = 'view/' + view + '.html';
+		swig.setDefaults({ autoescape: false });
 	var template = swig.renderFile(fileName, data || {});
 	// console.log(template);
 	if (target)
@@ -110,12 +112,19 @@ App.events = function() {
 
 	}
 
-	// visit link listener
+
 	document.onclick = function(event) {
 		var target = event.target;
-		if (!target.hasAttribute('data-doc-link')) return;
-		var link = target.getAttribute('data-doc-link');
-		App.openDoc(link);
+		// open doc
+		if (target.hasAttribute('data-doc-link')) {
+			var link = target.getAttribute('data-doc-link');
+			App.openDoc(link);
+		};
+		//browse visit doc
+		if (target.hasAttribute('data-doc-link-browse')) {
+			var link = target.getAttribute('data-doc-link-browse');
+			App.browseDoc(link);
+		}
 		return false;
 	}
 
@@ -276,6 +285,22 @@ App.search.visitCount = function(numPatient, cb) {
 }
 
 App.openDoc = function(link) {
-	var basePath = '../docs/doc/';
-	gui.Shell.openItem(path.resolve(basePath, link));
+	gui.Shell.openItem(path.resolve(App.baseDocsPath, link));
+}
+
+App.browseDoc = function(link) {
+	var absLink = path.resolve(App.baseDocsPath, link) + 'x';
+	console.log(absLink);
+	mammoth.convertToHtml({
+			path: absLink
+		})
+		.then(function(result) {
+			var html = result.value; // The generated HTML
+			// alert(html);
+			App.loadTemplate('modal', {data: html}, "#modal-doc");
+			$('#myModal').modal('toggle');
+			//fs.writeFileSync(__dirname + "/output.html", html);
+			var messages = result.messages; // Any messages, such as warnings during conversion
+		})
+		.done();
 }
