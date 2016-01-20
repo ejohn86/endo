@@ -35,3 +35,4 @@ While Len(strFilename) <> 0
     oDoc.Close SaveChanges:=wdDoNotSaveChanges
     strFilename = Dir$()
 Wend
+End Sub

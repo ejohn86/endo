@@ -32,7 +32,9 @@ window.onload = function() {
 App.loadTemplate = function(view, data, target) {
 	var swig = require('swig'),
 		fileName = 'view/' + view + '.html';
-		swig.setDefaults({ autoescape: false });
+	swig.setDefaults({
+		autoescape: false
+	});
 	var template = swig.renderFile(fileName, data || {});
 	// console.log(template);
 	if (target)
@@ -120,6 +122,10 @@ App.events = function() {
 			var link = target.getAttribute('data-doc-link');
 			App.openDoc(link);
 		};
+		if (target.hasAttribute('data-doc-link-full')) {
+			var link = target.getAttribute('data-doc-link-full');
+			App.openDoc(link, true);
+		}
 		//browse visit doc
 		if (target.hasAttribute('data-doc-link-browse')) {
 			var link = target.getAttribute('data-doc-link-browse');
@@ -284,7 +290,10 @@ App.search.visitCount = function(numPatient, cb) {
 	});
 }
 
-App.openDoc = function(link) {
+App.openDoc = function(link, isAbsolut) {
+	if(isAbsolut){
+		gui.Shell.openItem(link);
+	}
 	gui.Shell.openItem(path.resolve(App.baseDocsPath, link));
 }
 
@@ -297,7 +306,10 @@ App.browseDoc = function(link) {
 		.then(function(result) {
 			var html = result.value; // The generated HTML
 			// alert(html);
-			App.loadTemplate('modal', {data: html}, "#modal-doc");
+			App.loadTemplate('modal', {
+				data: html,
+				link: absLink
+			}, "#modal-doc");
 			$('#myModal').modal('toggle');
 			//fs.writeFileSync(__dirname + "/output.html", html);
 			var messages = result.messages; // Any messages, such as warnings during conversion

@@ -32,6 +32,10 @@ td.res-table-fio{
 	cursor: pointer;
 }
 
+.hover-underline:hover{
+	text-decoration: underline;
+}
+
 .edit-btn-wrapper{
 	width: 15px;
 }
@@ -45,4 +49,10 @@ td.res-table-fio{
 }
 .visit-count-box span{
 	margin-right: 1px;
+}
+
+/* Modal mouse wheel issues https://github.com/twbs/bootstrap/issues/16297 */
+.modal.fade.in {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
 }
