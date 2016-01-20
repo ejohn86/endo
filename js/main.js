@@ -291,15 +291,15 @@ App.search.visitCount = function(numPatient, cb) {
 }
 
 App.openDoc = function(link, isAbsolut) {
-	if(isAbsolut){
+	if (isAbsolut) {
 		gui.Shell.openItem(link);
 	}
 	gui.Shell.openItem(path.resolve(App.baseDocsPath, link));
 }
 
 App.browseDoc = function(link) {
-	var absLink = path.resolve(App.baseDocsPath, link) + 'x';
-	console.log(absLink);
+	var absLink = path.resolve(App.baseDocsPath, link);
+	// console.log(absLink);
 	mammoth.convertToHtml({
 			path: absLink
 		})
