@@ -56,3 +56,9 @@ td.res-table-fio{
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
 }
+
+.doc-icon{
+	padding-left: 17px;
+	background: url(../img/icon_word.gif) no-repeat;
+	background-size: 15px;
+}
