@@ -270,11 +270,12 @@ App.search.patietnVisitList = function(numPatient, cb) {
 			console.log(err);
 			cb(err, null);
 		}
-		docs.sort(function(a, b){
-			var aDate = a.date, bDate = b.date;
+		docs.sort(function(a, b) {
+			var aDate = a.date,
+				bDate = b.date;
 			var aDateInt = parseInt(aDate.split('.')[2] + aDate.split('.')[1] + aDate.split('.')[0]);
 			var bDateInt = parseInt(bDate.split('.')[2] + bDate.split('.')[1] + bDate.split('.')[0]);
-			return  bDateInt - aDateInt;
+			return bDateInt - aDateInt;
 		});
 		cb(null, docs)
 	});
@@ -311,7 +312,7 @@ App.browseDoc = function(link) {
 		})
 		.then(function(result) {
 			var html = result.value; // The generated HTML
-			// alert(html);
+			//var format = App.browseDoc.format(html);
 			App.loadTemplate('modal', {
 				data: html,
 				link: absLink
@@ -319,6 +320,28 @@ App.browseDoc = function(link) {
 			$('#myModal').modal('toggle');
 			//fs.writeFileSync(__dirname + "/output.html", html);
 			var messages = result.messages; // Any messages, such as warnings during conversion
-		})
-		.done();
+		}).done();
+}
+
+App.browseDoc.format = function(html) {
+	// console.log(html);
+	var re = /\s*<p>\s*|\s*<\/p>(?:<p>)?\s*/;
+	html = html.split(re);
+	html = html.filter(function(val) {
+		return val.length > 0
+	});
+	//find description block
+	var descBlockNum; 
+	for(var i=0, l=html.length; i<l; i++){
+		if(html[i].indexOf('Текст:')> -1){
+			descBlockNum = i;
+			break;
+		}
+	}
+	var formatHtml = html.splice(0,descBlockNum-1).join('<br>') + '';
+
+	return {arr: html, index: descBlockNum}
+	console.log(descBlockNum);
+	console.log(html);
+
 }
