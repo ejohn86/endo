@@ -270,6 +270,12 @@ App.search.patietnVisitList = function(numPatient, cb) {
 			console.log(err);
 			cb(err, null);
 		}
+		docs.sort(function(a, b){
+			var aDate = a.date, bDate = b.date;
+			var aDateInt = parseInt(aDate.split('.')[2] + aDate.split('.')[1] + aDate.split('.')[0]);
+			var bDateInt = parseInt(bDate.split('.')[2] + bDate.split('.')[1] + bDate.split('.')[0]);
+			return  bDateInt - aDateInt;
+		});
 		cb(null, docs)
 	});
 }
