@@ -54,6 +54,11 @@ App.test = function() {
 
 // event listener for find input
 App.events = function() {
+	//tooltips init
+	$('span[data-toggle="tooltip"]').tooltip({
+	   	animated: 'fade'
+	});
+
 	that = this;
 	var inp = document.getElementById('find-input');
 	var table = document.getElementById('find-result');

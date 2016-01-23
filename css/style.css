@@ -62,3 +62,8 @@ td.res-table-fio{
 	background: url(../img/icon_word.gif) no-repeat;
 	background-size: 15px;
 }
+
+.tooltip {
+    z-index: 9999;
+    position: fixed;
+}
