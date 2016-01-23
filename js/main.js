@@ -119,10 +119,12 @@ App.events = function() {
 		var target = event.target;
 		// open doc
 		if (target.hasAttribute('data-doc-link')) {
+			console.log('data-doc-link click');
 			var link = target.getAttribute('data-doc-link');
 			App.openDoc(link);
 		};
 		if (target.hasAttribute('data-doc-link-full')) {
+			console.log('data-doc-link-full click');
 			var link = target.getAttribute('data-doc-link-full');
 			App.openDoc(link, true);
 		}
@@ -331,16 +333,19 @@ App.browseDoc.format = function(html) {
 		return val.length > 0
 	});
 	//find description block
-	var descBlockNum; 
-	for(var i=0, l=html.length; i<l; i++){
-		if(html[i].indexOf('Текст:')> -1){
+	var descBlockNum;
+	for (var i = 0, l = html.length; i < l; i++) {
+		if (html[i].indexOf('Текст:') > -1) {
 			descBlockNum = i;
 			break;
 		}
 	}
-	var formatHtml = html.splice(0,descBlockNum-1).join('<br>') + '';
+	var formatHtml = html.splice(0, descBlockNum - 1).join('<br>') + '';
 
-	return {arr: html, index: descBlockNum}
+	return {
+		arr: html,
+		index: descBlockNum
+	}
 	console.log(descBlockNum);
 	console.log(html);
 
