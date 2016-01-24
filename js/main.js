@@ -56,7 +56,7 @@ App.test = function() {
 App.events = function() {
 	//tooltips init
 	$('span[data-toggle="tooltip"]').tooltip({
-	   	animated: 'fade'
+		animated: 'fade'
 	});
 
 	that = this;
@@ -138,6 +138,11 @@ App.events = function() {
 			var link = target.getAttribute('data-doc-link-browse');
 			App.browseDoc(link);
 		}
+		// new patient
+		if (target.hasAttribute('data-new-patient')) {
+			App.newPatient();
+		}
+
 		return false;
 	}
 
@@ -320,7 +325,7 @@ App.browseDoc = function(link) {
 		.then(function(result) {
 			var html = result.value; // The generated HTML
 			//var format = App.browseDoc.format(html);
-			App.loadTemplate('modal', {
+			App.loadTemplate('browse-doc', {
 				data: html,
 				link: absLink
 			}, "#modal-doc");
@@ -353,5 +358,12 @@ App.browseDoc.format = function(html) {
 	}
 	console.log(descBlockNum);
 	console.log(html);
+}
 
+App.newPatient = function() {
+	// console.log('newPatient');
+	App.loadTemplate('edit-patient', {
+
+	}, "#modal-doc");
+	$('#edit-patietn-id').modal('toggle');
 }

@@ -1,0 +1,54 @@
+<div class="modal fade" id="edit-patietn-id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Новая карта</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Карта пациента № 19701</h4>
+        <form role="form">
+          <table id='edit-patient'>
+            <tr>
+              <td>Фамилия</td>
+              <td><input type="text" class="form-control" ></td>
+              <td class='padding-table'>Дата&nbsp;рождения</td>
+              <td><input type="date" class="form-control" ></td>
+            </tr>
+            <tr>
+              <td>Имя</td>
+              <td><input type="text" class="form-control" ></td>
+              <td class='padding-table'>Пол</td>
+              <td>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default">
+                    <input name="sex" value="m" type="radio">Муж
+                  </label>
+                  <label class="btn btn-default">
+                    <input name="sex" value="w" type="radio">Жен
+                  </label>
+                </div>  
+            </td>
+          </tr>
+          <tr>
+            <td>Отчество</td>
+            <td><input type="text" class="form-control" ></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Адрес</td>
+            <td colspan="3"><input type="text" class="form-control" ></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" >
+        <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
+      </button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+    </div>
+  </div>
+</div>
+</div>

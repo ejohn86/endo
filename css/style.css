@@ -67,3 +67,15 @@ td.res-table-fio{
     z-index: 9999;
     position: fixed;
 }
+
+#edit-patient{
+	width: 100%;
+}
+
+#edit-patient td{
+	padding: 2px;
+}
+
+.padding-table{
+	padding-left: 15px !important;
+}
