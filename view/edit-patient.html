@@ -3,26 +3,26 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Новая карта</h4>
+        <h4 class="modal-title" id="myModalLabel">Новая карта пациента</h4>
       </div>
       <div class="modal-body">
-        <h4>Карта пациента № 19701</h4>
+        <!-- <h4>Карта пациента № 19701</h4> -->
         <form role="form">
           <table id='edit-patient'>
             <tr>
               <td>Фамилия</td>
-              <td><input type="text" class="form-control" ></td>
+              <td><input type="text" class="form-control" tabindex="1" autofocus></td>
               <td class='padding-table'>Дата&nbsp;рождения</td>
-              <td><input type="date" class="form-control" ></td>
+              <td><input type="date" class="form-control" tabindex="4"></td>
             </tr>
             <tr>
               <td>Имя</td>
-              <td><input type="text" class="form-control" ></td>
+              <td><input type="text" class="form-control" tabindex="2"></td>
               <td class='padding-table'>Пол</td>
               <td>
                 <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-default">
-                    <input name="sex" value="m" type="radio">Муж
+                    <input name="sex" value="m" type="radio"  tabindex="5">Муж
                   </label>
                   <label class="btn btn-default">
                     <input name="sex" value="w" type="radio">Жен
@@ -32,13 +32,13 @@
           </tr>
           <tr>
             <td>Отчество</td>
-            <td><input type="text" class="form-control" ></td>
+            <td><input type="text" class="form-control" tabindex="3"></td>
             <td></td>
             <td></td>
           </tr>
           <tr>
             <td>Адрес</td>
-            <td colspan="3"><input type="text" class="form-control" ></td>
+            <td colspan="3"><input type="text" class="form-control"  tabindex="6"></td>
           </tr>
         </table>
       </form>
