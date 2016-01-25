@@ -26,6 +26,8 @@ App.init = function() {
 window.onload = function() {
 	App.init();
 	App.events();
+	App.botstrapHints();
+	App.registerHotkeys();
 	App.test();
 }
 
@@ -51,14 +53,33 @@ App.test = function() {
 	// gui.Shell.openItem(path.resolve('../docs/doc/1/1004.doc'));
 }
 
-
-// event listener for find input
-App.events = function() {
+App.botstrapHints = function() {
 	//tooltips init
 	$('span[data-toggle="tooltip"]').tooltip({
 		animated: 'fade'
 	});
 
+	//autofocus hack for modal	
+	$(document).on('shown.bs.modal', '.modal', function() {
+		$(this).find('[autofocus]').focus();
+	});
+}
+
+App.registerHotkeys = function() {
+
+
+	document.onkeydown = function(e) {
+		// New patient (Ctrl+N)
+		if (e.ctrlKey && e.keyCode == 'N'.charCodeAt(0) && !e.shiftKey) {
+			App.newPatient();
+			return false;
+		}
+
+	};
+}
+
+// event listener for find input
+App.events = function() {
 	that = this;
 	var inp = document.getElementById('find-input');
 	var table = document.getElementById('find-result');
