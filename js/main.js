@@ -164,6 +164,11 @@ App.events = function() {
 			App.newPatient();
 		}
 
+		// save edit data of patient
+		if (target.hasAttribute('data-save-button-patient')) {
+			App.validatePatientForm();
+		}
+
 		return false;
 	}
 
@@ -387,4 +392,8 @@ App.newPatient = function() {
 
 	}, "#modal-doc");
 	$('#edit-patietn-id').modal('toggle');
+}
+
+App.validatePatientForm = function() {
+
 }

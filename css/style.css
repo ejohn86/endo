@@ -3,6 +3,10 @@
 /*#find-input{
 	width: 100%;
 }*/
+body{
+	background-color: #DDE7ED !important;
+	/*background-color: rgba(105, 188, 218, 0.21) !important;*/
+}
 
 #main-view{
 	min-width: 800px;
@@ -55,6 +59,10 @@ td.res-table-fio{
 .modal.fade.in {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
+}
+
+.modal-content {
+	background-color: #F7FAFC;
 }
 
 .doc-icon{
