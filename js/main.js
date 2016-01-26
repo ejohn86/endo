@@ -29,6 +29,7 @@ window.onload = function() {
 	App.botstrapHints();
 	App.registerHotkeys();
 	App.test();
+	gui.Window.get().show();
 }
 
 App.loadTemplate = function(view, data, target) {
@@ -395,5 +396,8 @@ App.newPatient = function() {
 }
 
 App.validatePatientForm = function() {
+	console.log(document.getElementById('myForm').checkValidity());
+	console.log($('input[name="sex"]:checked').val());
+//https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/Data_form_validation
 
 }
