@@ -29,6 +29,7 @@ window.onload = function() {
 	App.botstrapHints();
 	App.registerHotkeys();
 	App.test();
+	gui.Window.get().show();
 }
 
 App.loadTemplate = function(view, data, target) {
@@ -166,7 +167,7 @@ App.events = function() {
 
 		// save edit data of patient
 		if (target.hasAttribute('data-save-button-patient')) {
-			App.validatePatientForm();
+			console.log(App.validatePatientForm());
 		}
 
 		return false;
@@ -394,6 +395,23 @@ App.newPatient = function() {
 	$('#edit-patietn-id').modal('toggle');
 }
 
+//return true if validated or arr invalid filds
 App.validatePatientForm = function() {
+	var errDiv = document.getElementById('error-message');
+	errDiv.innerHTML = '';
+	//https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/Data_form_validation
+	//console.log($('input[name="sex"]:checked').val());
+	if(document.getElementById('myForm').checkValidity()){
+		return true;
+	}
+	var validateArr = ['fname', 'birthday', 'sname', 'tname', 'adress', 'sex'];
+	var notValidArr = [];
+	validateArr.forEach(function(item, i, arr){
+		if(!document.getElementById(item + '-form').checkValidity()){
+			notValidArr.push(item);
+		}
+	});
 
+	errDiv.innerHTML = "Заполните поля: " + notValidArr.join(', ');
+	return false;
 }

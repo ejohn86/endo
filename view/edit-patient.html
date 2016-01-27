@@ -1,54 +1,57 @@
 <div class="modal fade" id="edit-patietn-id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Новая карта пациента</h4>
-      </div>
-      <div class="modal-body">
-        <!-- <h4>Карта пациента № 19701</h4> -->
-        <form role="form">
+      <form role="form" id='myForm'>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Новая карта пациента</h4>
+        </div>
+        <div class="modal-body">
+          <!-- <h4>Карта пациента № 19701</h4> -->
+
           <table id='edit-patient'>
             <tr>
               <td>Фамилия</td>
-              <td><input type="text" class="form-control" tabindex="1" autofocus></td>
+              <td><input type="text" class="form-control" tabindex="1" autofocus required pattern="\s*\S+\s*" id='fname-form'></td>
               <td class='padding-table'>Дата&nbsp;рождения</td>
-              <td><input type="date" class="form-control" tabindex="4"></td>
+              <td><input type="date" class="form-control" tabindex="4" required id='birthday-form'></td>
             </tr>
             <tr>
               <td>Имя</td>
-              <td><input type="text" class="form-control" tabindex="2"></td>
+              <td><input type="text" class="form-control" tabindex="2" required pattern="\s*\S+\s*" id='sname-form'></td>
               <td class='padding-table'>Пол</td>
               <td>
                 <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-default">
-                    <input name="sex" value="m" type="radio"  tabindex="5">Муж
+                    <input name="sex" value="m" type="radio" tabindex="5" required  id='sex-form'>Муж
                   </label>
                   <label class="btn btn-default">
-                    <input name="sex" value="w" type="radio">Жен
+                    <input name="sex" value="w" type="radio" required>Жен
                   </label>
                 </div>  
-            </td>
-          </tr>
-          <tr>
-            <td>Отчество</td>
-            <td><input type="text" class="form-control" tabindex="3"></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Адрес</td>
-            <td colspan="3"><input type="text" class="form-control"  tabindex="6"></td>
-          </tr>
-        </table>
+              </td>
+            </tr>
+            <tr>
+              <td>Отчество</td>
+              <td><input type="text" class="form-control" tabindex="3" required pattern="\s*\S+\s*" id='tname-form'></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Адрес</td>
+              <td colspan="3"><input type="text" class="form-control"  tabindex="6" required pattern="(\s*\S+\s*)+" id='adress-form'></td>
+            </tr>
+          </table>
+
+        </div>
+        <div class="modal-footer">
+          <div id="error-message"></div>
+          <button type="button" class="btn btn-primary" data-save-button-patient>
+            <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        </div>
       </form>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" data-save-button-patient>
-        <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
-      </button>
-      <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-    </div>
   </div>
-</div>
 </div>

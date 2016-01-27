@@ -4,7 +4,8 @@
   "window": {
     "toolbar": true,
     "width": 900,
-    "height": 600
+    "height": 600,
+    "show": false
   },
   "dependencies": {
     "async": "^1.5.0",
