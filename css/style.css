@@ -88,3 +88,7 @@ td.res-table-fio{
 	padding-left: 15px !important;
 }
 
+#error-message{
+	text-align: left;
+	color: red;
+}
