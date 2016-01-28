@@ -405,11 +405,15 @@ App.validatePatientForm = function() {
 		return true;
 	}
 	var validateArr = ['fname', 'birthday', 'sname', 'tname', 'adress', 'sex'];
+	var nameFields = {'fname': 'Фамилия', 'birthday': 'Дата рождения', 'sname': 'Имя', 'tname': 'Отчество', 'adress': 'Адрес', 'sex': 'Пол'};
 	var notValidArr = [];
 	validateArr.forEach(function(item, i, arr){
 		if(!document.getElementById(item + '-form').checkValidity()){
 			notValidArr.push(item);
 		}
+	});
+	notValidArr = notValidArr.map(function(item){
+		return nameFields[item];
 	});
 
 	errDiv.innerHTML = "Заполните поля: " + notValidArr.join(', ');
