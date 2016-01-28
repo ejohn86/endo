@@ -81,135 +81,135 @@ App.registerHotkeys = function() {
 
 // event listener for find input
 App.events = function() {
-	that = this;
-	var inp = document.getElementById('find-input');
-	var table = document.getElementById('find-result');
+		that = this;
+		var inp = document.getElementById('find-input');
+		var table = document.getElementById('find-result');
 
-	var value = inp.value;
-
-	// input listener
-	inp.onkeyup = function(e) {
 		var value = inp.value;
 
-		// press Enter
-		e = e || window.event;
-		if (e.keyCode === 13) {
-			// var inpValue = inp.value;
-			App.search(value, function(err, res) {
-				if (err) console.log(err);
-				App.printResult(res);
-				//alert(JSON.stringify(res));
-			});
-		}
-		if (value.length > 3 || value.length == 0) {
-			clearInterval(that.onChangeInterval);
-			if (that.currentValue != value) {
-				that.onChangeInterval = setInterval(function() {
-					clearInterval(that.onChangeInterval);
-					that.currentValue = value;
-					App.search(value, function(err, res) {
-						if (err) console.log(err);
-						App.printResult(res);
-						//alert(JSON.stringify(res));
-					});
-				}, that.deferRequestBy);
+		// input listener
+		inp.onkeyup = function(e) {
+			var value = inp.value;
+
+			// press Enter
+			e = e || window.event;
+			if (e.keyCode === 13) {
+				// var inpValue = inp.value;
+				App.search(value, function(err, res) {
+					if (err) console.log(err);
+					App.printResult(res);
+					//alert(JSON.stringify(res));
+				});
 			}
+			if (value.length > 3 || value.length == 0) {
+				clearInterval(that.onChangeInterval);
+				if (that.currentValue != value) {
+					that.onChangeInterval = setInterval(function() {
+						clearInterval(that.onChangeInterval);
+						that.currentValue = value;
+						App.search(value, function(err, res) {
+							if (err) console.log(err);
+							App.printResult(res);
+							//alert(JSON.stringify(res));
+						});
+					}, that.deferRequestBy);
+				}
+			}
+			return false;
 		}
-		return false;
+
+		// listener for open visit list on patient
+		table.onclick = function(event) {
+			// console.log(event.target);
+			var target = event.target;
+			if (target.id == "find-result" || target.tagName == "TBODY" || target.hasAttribute('data-edit-btn')) return;
+			while (target.tagName != 'TR') {
+				target = target.parentNode;
+			}
+			var id = target.getAttribute('data-toggle-id');
+			if (!id) return;
+
+			App.search.patietnVisitList(id, function(err, doc) {
+				if (err) console.log(err);
+				App.printResult.visitList(doc, id);
+
+			});
+			// $(elem).fadeToggle("slow");
+			var elem = document.getElementById("full-" + id);
+			elem.hidden = !elem.hidden;
+
+		}
+
+
+		document.onclick = function(event) {
+			var target = event.target;
+			// open doc
+			if (target.hasAttribute('data-doc-link')) {
+				console.log('data-doc-link click');
+				var link = target.getAttribute('data-doc-link');
+				App.openDoc(link);
+			};
+			if (target.hasAttribute('data-doc-link-full')) {
+				console.log('data-doc-link-full click');
+				var link = target.getAttribute('data-doc-link-full');
+				App.openDoc(link, true);
+			}
+			//browse visit doc
+			if (target.hasAttribute('data-doc-link-browse')) {
+				var link = target.getAttribute('data-doc-link-browse');
+				App.browseDoc(link);
+			}
+			// new patient
+			if (target.hasAttribute('data-new-patient')) {
+				App.newPatient();
+			}
+			// edit patient
+			if (target.hasAttribute('data-edit-btn')) {
+				App.editPatient(target.getAttribute('data-edit-btn'));
+
+			}
+
+			// save edit data of patient
+			if (target.hasAttribute('data-save-button-patient')) {
+				console.log(App.validatePatientForm());
+			}
+
+
+			return false;
+		}
+
+		//show edit btn 
+		table.onmouseover = function(event) {
+			var el = findEditElement(event);
+			if (el)
+				el.hidden = false;
+
+		}
+
+		table.onmouseout = function(event) {
+			var el = findEditElement(event);
+			if (el)
+				el.hidden = true;
+
+		}
+
+		findEditElement = function(event) {
+			if (event.target.id == "find-result" || event.target.tagName == "TBODY") return;
+			// console.log(event)
+			var target = event.target;
+			while (target.tagName != 'TR') {
+				target = target.parentNode;
+			}
+			var id = target.getAttribute('data-toggle-id');
+			if (!id) return;
+			return elem = document.getElementById('edit-btn-' + id);
+		}
+
 	}
-
-	// listener for open visit list on patient
-	table.onclick = function(event) {
-		// console.log(event.target);
-		var target = event.target;
-		if (target.id == "find-result" || target.tagName == "TBODY" || target.hasAttribute('data-edit-btn')) return;
-		while (target.tagName != 'TR') {
-			target = target.parentNode;
-		}
-		var id = target.getAttribute('data-toggle-id');
-		if (!id) return;
-
-		App.search.patietnVisitList(id, function(err, doc) {
-			if (err) console.log(err);
-			App.printResult.visitList(doc, id);
-
-		});
-		// $(elem).fadeToggle("slow");
-		var elem = document.getElementById("full-" + id);
-		elem.hidden = !elem.hidden;
-
-	}
-
-
-	document.onclick = function(event) {
-		var target = event.target;
-		// open doc
-		if (target.hasAttribute('data-doc-link')) {
-			console.log('data-doc-link click');
-			var link = target.getAttribute('data-doc-link');
-			App.openDoc(link);
-		};
-		if (target.hasAttribute('data-doc-link-full')) {
-			console.log('data-doc-link-full click');
-			var link = target.getAttribute('data-doc-link-full');
-			App.openDoc(link, true);
-		}
-		//browse visit doc
-		if (target.hasAttribute('data-doc-link-browse')) {
-			var link = target.getAttribute('data-doc-link-browse');
-			App.browseDoc(link);
-		}
-		// new patient
-		if (target.hasAttribute('data-new-patient')) {
-			App.newPatient();
-		}
-		// edit patient
-		if (target.hasAttribute('data-edit-btn')) {
-			App.editPatient(target.getAttribute('data-edit-btn'));
-
-		}
-
-		// save edit data of patient
-		if (target.hasAttribute('data-save-button-patient')) {
-			console.log(App.validatePatientForm());
-		}
-
-
-		return false;
-	}
-
-	//show edit btn 
-	table.onmouseover = function(event) {
-		var el = findEditElement(event);
-		if (el)
-			el.hidden = false;
-
-	}
-
-	table.onmouseout = function(event) {
-		var el = findEditElement(event);
-		if (el)
-			el.hidden = true;
-
-	}
-
-	findEditElement = function(event) {
-		if (event.target.id == "find-result" || event.target.tagName == "TBODY") return;
-		// console.log(event)
-		var target = event.target;
-		while (target.tagName != 'TR') {
-			target = target.parentNode;
-		}
-		var id = target.getAttribute('data-toggle-id');
-		if (!id) return;
-		return elem = document.getElementById('edit-btn-' + id);
-	}
-
-}
-// upper case first letter fio
+	// upper case first letter fio
 ucFirst = function(str) {
-		return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
-	}
+	return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+}
 
 App.printResult = function(data) {
 	data = data.map(function(item) {
@@ -393,14 +393,22 @@ App.browseDoc.format = function(html) {
 }
 
 App.newPatient = function() {
+	var inp = document.getElementById('find-input');
+	var doc = {};
+	if (inp.value.length) {
+		var val = inp.value.split(" ");
+		doc.fn = val[0];
+		doc.sn = val[1] || "";
+		doc.tn = val[2] || "";
+	}
 	// console.log('newPatient');
 	App.loadTemplate('edit-patient', {
-		"data": "hello"
+		"data": doc
 	}, "#modal-doc");
 	$('#edit-patietn-id').modal('toggle');
 }
 
-App.editPatient = function(id){
+App.editPatient = function(id) {
 	// console.log('Edit patient: %s', id);
 	Pat.findOne({
 		num: parseInt(id)
@@ -411,11 +419,11 @@ App.editPatient = function(id){
 		doc.tn = ucFirst(doc.tn);
 		var bArr = doc.birth.split('.');
 		doc.birth = bArr[2] + '-' + bArr[1] + '-' + bArr[0];
-App.loadTemplate('edit-patient', {
-		"data": doc,
-		"edit": true
-	}, "#modal-doc");
-	$('#edit-patietn-id').modal('toggle');
+		App.loadTemplate('edit-patient', {
+			"data": doc,
+			"edit": true
+		}, "#modal-doc");
+		$('#edit-patietn-id').modal('toggle');
 		// console.log(doc);
 	});
 }
