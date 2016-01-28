@@ -90,5 +90,8 @@ td.res-table-fio{
 
 #error-message{
 	text-align: left;
-	color: red;
+}
+
+.red {
+	color: red;	
 }
