@@ -412,7 +412,8 @@ App.editPatient = function(id){
 		var bArr = doc.birth.split('.');
 		doc.birth = bArr[2] + '-' + bArr[1] + '-' + bArr[0];
 App.loadTemplate('edit-patient', {
-		"data": doc
+		"data": doc,
+		"edit": true
 	}, "#modal-doc");
 	$('#edit-patietn-id').modal('toggle');
 		// console.log(doc);

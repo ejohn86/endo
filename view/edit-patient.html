@@ -4,10 +4,10 @@
       <form role="form" id='myForm'>
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myModalLabel">Новая карта пациента</h4>
+          <h4 class="modal-title" id="myModalLabel">{% if edit %}Редактирование карты № {{ data.num }}{% else %}Новая карта пациента{% endif %} </h4>
         </div>
         <div class="modal-body">
-          <!-- <h4>Карта пациента № 19701</h4> -->
+          <span data-num-patient="{{ data.num }}"></span>
 
           <table id='edit-patient'>
             <tr>
