@@ -21,7 +21,7 @@
 		<td>{{ item.gen }}</td>
 		<td>{{ item.birth }}</td> 
 		<td>{{ item.addr }}</td>
-		<td><div class='edit-btn-wrapper'><div id='edit-btn-{{ item.num }}' class="pointer" hidden><span class="label label-default"><span class="glyphicon glyphicon-pencil" ></span></span></div></div></td>
+		<td><div class='edit-btn-wrapper'><div id='edit-btn-{{ item.num }}' class="pointer" hidden><span class="label label-default"><span class="glyphicon glyphicon-pencil" data-edit-btn='{{ item.num }}'></span></span></div></div></td>
 	</tr>
 	<tr id="full-{{ item.num }}" hidden>
 	</tr>	

@@ -120,15 +120,14 @@ App.events = function() {
 
 	// listener for open visit list on patient
 	table.onclick = function(event) {
-		if (event.target.id == "find-result" || event.target.tagName == "TBODY") return;
+		// console.log(event.target);
 		var target = event.target;
+		if (target.id == "find-result" || target.tagName == "TBODY" || target.hasAttribute('data-edit-btn')) return;
 		while (target.tagName != 'TR') {
 			target = target.parentNode;
 		}
 		var id = target.getAttribute('data-toggle-id');
 		if (!id) return;
-
-
 
 		App.search.patietnVisitList(id, function(err, doc) {
 			if (err) console.log(err);
@@ -164,11 +163,17 @@ App.events = function() {
 		if (target.hasAttribute('data-new-patient')) {
 			App.newPatient();
 		}
+		// edit patient
+		if (target.hasAttribute('data-edit-btn')) {
+			App.editPatient(target.getAttribute('data-edit-btn'));
+
+		}
 
 		// save edit data of patient
 		if (target.hasAttribute('data-save-button-patient')) {
 			console.log(App.validatePatientForm());
 		}
+
 
 		return false;
 	}
@@ -201,12 +206,12 @@ App.events = function() {
 	}
 
 }
-
-App.printResult = function(data) {
-	// upper case first letter fio
-	var ucFirst = function(str) {
+// upper case first letter fio
+ucFirst = function(str) {
 		return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
 	}
+
+App.printResult = function(data) {
 	data = data.map(function(item) {
 		item.fn = ucFirst(item.fn);
 		item.sn = ucFirst(item.sn);
@@ -246,7 +251,7 @@ App.printResult = function(data) {
 App.printResult.visitList = function(visits, numPatient) {
 	var visits = visits;
 	var typeNames = {
-		"1": "фэгдс",
+		"1": "ФГДС",
 		"2": "фибробронхоскопия",
 		"3": "колоноскопия"
 	}
@@ -390,9 +395,29 @@ App.browseDoc.format = function(html) {
 App.newPatient = function() {
 	// console.log('newPatient');
 	App.loadTemplate('edit-patient', {
-
+		"data": "hello"
 	}, "#modal-doc");
 	$('#edit-patietn-id').modal('toggle');
+}
+
+App.editPatient = function(id){
+	// console.log('Edit patient: %s', id);
+	Pat.findOne({
+		num: parseInt(id)
+	}, function(err, doc) {
+		//doc = doc;
+		doc.fn = ucFirst(doc.fn);
+		doc.sn = ucFirst(doc.sn);
+		doc.tn = ucFirst(doc.tn);
+		var bArr = doc.birth.split('.');
+		doc.birth = bArr[2] + '-' + bArr[1] + '-' + bArr[0];
+App.loadTemplate('edit-patient', {
+		"data": doc,
+		"edit": true
+	}, "#modal-doc");
+	$('#edit-patietn-id').modal('toggle');
+		// console.log(doc);
+	});
 }
 
 //return true if validated or arr invalid filds
@@ -401,17 +426,28 @@ App.validatePatientForm = function() {
 	errDiv.innerHTML = '';
 	//https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/Data_form_validation
 	//console.log($('input[name="sex"]:checked').val());
-	if(document.getElementById('myForm').checkValidity()){
+	if (document.getElementById('myForm').checkValidity()) {
 		return true;
 	}
 	var validateArr = ['fname', 'birthday', 'sname', 'tname', 'adress', 'sex'];
+	var nameFields = {
+		'fname': 'Фамилия',
+		'birthday': 'Дата рождения',
+		'sname': 'Имя',
+		'tname': 'Отчество',
+		'adress': 'Адрес',
+		'sex': 'Пол'
+	};
 	var notValidArr = [];
-	validateArr.forEach(function(item, i, arr){
-		if(!document.getElementById(item + '-form').checkValidity()){
+	validateArr.forEach(function(item, i, arr) {
+		if (!document.getElementById(item + '-form').checkValidity()) {
 			notValidArr.push(item);
 		}
 	});
+	notValidArr = notValidArr.map(function(item) {
+		return nameFields[item];
+	});
 
-	errDiv.innerHTML = "Заполните поля: " + notValidArr.join(', ');
+	errDiv.innerHTML = "Заполните поля: <span class='red'>" + notValidArr.join(', ') + '</span>';
 	return false;
 }
