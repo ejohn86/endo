@@ -12,6 +12,29 @@ var Visit = new Datastore({
 	autoload: true
 });
 
+Pat.newPatient = function(param) {
+	console.log(param);
+	Pat.findOne({}).sort({
+		num: -1
+	}).exec(function(err, docs) {
+		console.log(docs);
+		var maxNum = docs.num;
+		param.num = ++maxNum;
+		console.log(param.num);
+
+		Pat.insert(param, function(err, newDoc) {
+			console.log('new patient added');
+			console.log(newDoc);
+		})
+
+	});
+}
+
+
+Pat.editPatient = function(num) {
+	console.log('new Patietn: ' + num);
+}
+
 /*Pat.loadDatabase(function(err) { // Callback is optional
 	// Now commands will be executed
 	

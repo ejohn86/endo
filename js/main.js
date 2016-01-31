@@ -171,7 +171,17 @@ App.events = function() {
 
 			// save edit data of patient
 			if (target.hasAttribute('data-save-button-patient')) {
-				console.log(App.validatePatientForm());
+				if (App.validatePatientForm()) {
+					if (target.hasAttribute('data-num-patient')) {
+						var num = parseInt(target.getAttribute('data-num-patient'));
+						if (num === 0) {
+							Pat.newPatient(App.getEditFormData());
+						}
+						if (num > 0) {
+							Pat.editPatietn(num);
+						}
+					}
+				}
 			}
 
 
@@ -433,18 +443,18 @@ App.validatePatientForm = function() {
 	var errDiv = document.getElementById('error-message');
 	errDiv.innerHTML = '';
 	//https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Forms/Data_form_validation
-	//console.log($('input[name="sex"]:checked').val());
+	//console.log($('input[name="gen"]:checked').val());
 	if (document.getElementById('myForm').checkValidity()) {
 		return true;
 	}
-	var validateArr = ['fname', 'birthday', 'sname', 'tname', 'adress', 'sex'];
+	var validateArr = ['fn', 'birth', 'sn', 'tn', 'addr', 'gen'];
 	var nameFields = {
-		'fname': 'Фамилия',
-		'birthday': 'Дата рождения',
-		'sname': 'Имя',
-		'tname': 'Отчество',
-		'adress': 'Адрес',
-		'sex': 'Пол'
+		'fn': 'Фамилия',
+		'birth': 'Дата рождения',
+		'sn': 'Имя',
+		'tn': 'Отчество',
+		'addr': 'Адрес',
+		'gen': 'Пол'
 	};
 	var notValidArr = [];
 	validateArr.forEach(function(item, i, arr) {
@@ -458,4 +468,15 @@ App.validatePatientForm = function() {
 
 	errDiv.innerHTML = "Заполните поля: <span class='red'>" + notValidArr.join(', ') + '</span>';
 	return false;
+}
+
+App.getEditFormData = function() {
+	var validateArr = ['fn', 'birth', 'sn', 'tn', 'addr', 'gen'];
+	var data = {}
+	validateArr.forEach(function(item, i, arr) {
+		data[item] = document.getElementById(item + '-form').value.trim();
+	});
+	var bArr = data.birth.split('-');
+	data.birth = bArr[2] + '.' + bArr[1] + '.' + bArr[0];
+	return data;
 }
