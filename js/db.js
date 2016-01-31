@@ -12,7 +12,7 @@ var Visit = new Datastore({
 	autoload: true
 });
 
-Pat.newPatient = function(param) {
+Pat.newPatient = function(param, cb) {
 	console.log(param);
 	Pat.findOne({}).sort({
 		num: -1
@@ -25,6 +25,7 @@ Pat.newPatient = function(param) {
 		Pat.insert(param, function(err, newDoc) {
 			console.log('new patient added');
 			console.log(newDoc);
+			cb();
 		})
 
 	});

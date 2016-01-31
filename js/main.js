@@ -175,7 +175,12 @@ App.events = function() {
 					if (target.hasAttribute('data-num-patient')) {
 						var num = parseInt(target.getAttribute('data-num-patient'));
 						if (num === 0) {
-							Pat.newPatient(App.getEditFormData());
+							Pat.newPatient(App.getEditFormData(), function() {
+								$('#edit-patietn-id').modal('hide');
+								App.search(document.getElementById('find-input').value, function(err, res) {
+									App.printResult(res);
+								});
+							});
 						}
 						if (num > 0) {
 							Pat.editPatietn(num);
@@ -280,7 +285,7 @@ App.printResult.visitList = function(visits, numPatient) {
 
 
 App.search = function(str, cb) {
-	var str = str || '';
+	var str = str || document.getElementById('find-input').value || '';
 	if (str.length == 0) {
 		cb(null, []);
 	} else {
