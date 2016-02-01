@@ -134,8 +134,10 @@ App.events = function() {
 				App.printResult.visitList(doc, id);
 
 			});
-			// $(elem).fadeToggle("slow");
 			var elem = document.getElementById("full-" + id);
+			//$(elem).fadeToggle("slow");
+
+			//$(elem).collapse('toggle');
 			elem.hidden = !elem.hidden;
 
 		}
@@ -263,6 +265,7 @@ App.printResult = function(data) {
 				});
 				var elem = document.getElementById("full-" + patientNum);
 				elem.hidden = !elem.hidden;
+				//$(elem).collapse('toggle');
 			}
 		});
 }
