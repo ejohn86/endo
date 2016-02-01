@@ -14,17 +14,18 @@ var Visit = new Datastore({
 
 Pat.newPatient = function(param, cb) {
 	// console.log(param);
+
 	Pat.findOne({}).sort({
 		num: -1
 	}).exec(function(err, docs) {
-		console.log(docs);
+		//console.log(docs);
 		var maxNum = docs.num;
 		param.num = ++maxNum;
-		console.log(param.num);
+		//console.log(param.num);
 
 		Pat.insert(param, function(err, newDoc) {
-			console.log('new patient added');
-			console.log(newDoc);
+			//console.log('new patient added');
+			//console.log(newDoc);
 			cb();
 		})
 
@@ -32,8 +33,20 @@ Pat.newPatient = function(param, cb) {
 }
 
 
-Pat.editPatient = function(num) {
-	console.log('new Patietn: ' + num);
+Pat.editPatient = function(num, param, cb) {
+	console.log('Edit Patietn: ' + num);
+	console.log(param);
+	Pat.update({
+		num: num
+	}, {
+		$set: param
+	}, {}, function(err, numReplaced) {
+		// numReplaced = 3
+		if (err) console.log(err);
+		console.log('numReplaced: %s', numReplaced);
+		cb();
+	});
+
 }
 
 /*Pat.loadDatabase(function(err) { // Callback is optional

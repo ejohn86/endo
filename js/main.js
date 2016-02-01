@@ -172,18 +172,22 @@ App.events = function() {
 			// save edit data of patient
 			if (target.hasAttribute('data-save-button-patient')) {
 				if (App.validatePatientForm()) {
+					$('#edit-patietn-id').modal('hide');
 					if (target.hasAttribute('data-num-patient')) {
 						var num = parseInt(target.getAttribute('data-num-patient'));
 						if (num === 0) {
 							Pat.newPatient(App.getEditFormData(), function() {
-								$('#edit-patietn-id').modal('hide');
 								App.search(document.getElementById('find-input').value, function(err, res) {
 									App.printResult(res);
 								});
 							});
 						}
 						if (num > 0) {
-							Pat.editPatietn(num);
+							Pat.editPatient(num, App.getEditFormData(), function() {
+								App.search(document.getElementById('find-input').value, function(err, res) {
+									App.printResult(res);
+								});
+							});
 						}
 					}
 				}
@@ -484,5 +488,6 @@ App.getEditFormData = function() {
 	data.gen = $('#gen-radio label.active input').val();
 	var bArr = data.birth.split('-');
 	data.birth = bArr[2] + '.' + bArr[1] + '.' + bArr[0];
+	console.log(data);
 	return data;
 }
