@@ -19,7 +19,7 @@
               <td><input type="text" class="form-control" tabindex="2" required pattern="\s*\S+\s*" id='sn-form'  value ="{{ data.sn }}"></td>
               <td class='padding-table'>Пол</td>
               <td>
-                <div class="btn-group" data-toggle="buttons">
+                <div class="btn-group" data-toggle="buttons" id='gen-radio'>
                   <label class="btn btn-default {% if data.gen == 'М' %} active{% endif %}">
                     <input name="gen" value="М" type="radio" tabindex="5" required  id='gen-form' {% if data.gen == 'М' %}checked{% endif %}>Муж
                   </label>

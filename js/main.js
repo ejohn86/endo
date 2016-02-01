@@ -476,11 +476,12 @@ App.validatePatientForm = function() {
 }
 
 App.getEditFormData = function() {
-	var validateArr = ['fn', 'birth', 'sn', 'tn', 'addr', 'gen'];
+	var validateArr = ['fn', 'birth', 'sn', 'tn', 'addr'];
 	var data = {}
 	validateArr.forEach(function(item, i, arr) {
 		data[item] = document.getElementById(item + '-form').value.trim();
 	});
+	data.gen = $('#gen-radio label.active input').val();
 	var bArr = data.birth.split('-');
 	data.birth = bArr[2] + '.' + bArr[1] + '.' + bArr[0];
 	return data;

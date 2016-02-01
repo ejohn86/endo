@@ -13,7 +13,7 @@ var Visit = new Datastore({
 });
 
 Pat.newPatient = function(param, cb) {
-	console.log(param);
+	// console.log(param);
 	Pat.findOne({}).sort({
 		num: -1
 	}).exec(function(err, docs) {
