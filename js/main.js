@@ -3,6 +3,7 @@ var win = gui.Window.get();
 var path = require('path');
 var async = require('async');
 var mammoth = require("mammoth");
+var fs = require('fs');
 //win.showDevTools();
 
 var App = {};
@@ -11,6 +12,8 @@ var Visit = require('./js/db.js').Visit;
 
 App.currentValue = '';
 App.baseDocsPath = '../docs/doc/';
+App.templatePath = '../docs/shab/'
+App.templateList = [];
 // defer request for fast change finded value
 App.onChangeInterval = null;
 App.deferRequestBy = 300;
@@ -18,6 +21,9 @@ App.deferRequestBy = 300;
 
 
 App.init = function() {
+	App.templateList = fs.readdirSync(App.templatePath).map(function(item) {
+		return item.replace('.docx', '');
+	});
 	App.loadTemplate('app', {
 		title: 'ma'
 	}, "#main-view");
@@ -46,6 +52,7 @@ App.loadTemplate = function(view, data, target) {
 };
 
 App.test = function() {
+
 	// gui.Shell.showItemInFolder('package.json');
 	// gui.Shell.openItem('../docs/doc/1/1004.doc');
 	//console.log(path.resolve('../docs/doc/1/'));
@@ -503,7 +510,6 @@ App.getEditFormData = function() {
 }
 
 App.newVisit = function(numPatient) {
-	// console.log('New visit for patient: %s', numPatient);
 	Pat.findOne({
 		num: parseInt(numPatient)
 	}, function(err, doc) {
@@ -514,11 +520,9 @@ App.newVisit = function(numPatient) {
 		var bArr = doc.birth.split('.');
 		doc.birth = bArr[2] + '-' + bArr[1] + '-' + bArr[0];
 		App.loadTemplate('new-visit', {
+			"list": App.templateList,
 			"doc": doc
 		}, "#modal-doc");
 		$('#new-visit-id').modal('toggle');
 	});
-
-
-
 }

@@ -3,8 +3,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <span>Новое обследование пациента: <strong>{{ doc.fn }} {{ doc.sn }} {{ doc.tn }}</strong></span>
-        <table id='new-visit-table'>
+        <!-- <span>Новое обследование пациента</span>    -->
+        <h4 class="modal-title">Новое обследование пациента</h4>     
+      </div>
+      <div class="modal-body">
+      <table id='new-visit-table'>
+          <tr>
+            <td>ФИО</td>
+            <td><strong>{{ doc.fn }} {{ doc.sn }} {{ doc.tn }}</strong></td>
+          </tr>
           <tr>
             <td>Дата посещения</td>
             <td>02.02.2016</td>
@@ -14,13 +21,13 @@
             <td>
             <div class="btn-group" data-toggle="buttons" id='type-radio'>
                 <label class="btn btn-default active">
-                  <input name="gen" value="1" type="radio" required  id='tipe-form' checked><strong>ФГДС</strong>
+                  <input name="gen" value="1" type="radio" required  id='tipe-form' checked><span class='label label-success visit-type'>&nbsp;</span> ФГДС
                 </label>
                 <label class="btn btn-default">
-                  <input name="gen" value="2" type="radio" required>фибробронхоскопия
+                  <input name="gen" value="2" type="radio" required><span class='label label-primary visit-type'>&nbsp;</span> фибробронхоскопия
                 </label>
                 <label class="btn btn-default">
-                  <input name="gen" value="3" type="radio" required >колоноскопия
+                  <input name="gen" value="3" type="radio" required ><span class='label label-warning visit-type'>&nbsp;</span> колоноскопия
                 </label>
               </div>
             </td>
@@ -28,33 +35,18 @@
           <tr>
             <td>Шаблон</td>
             <td>
-              <select class="form-control">
-                <option><strong>1</strong></option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
+              <select class="form-control" id='template-select-form'>
+                <option value="" disabled selected>Выберите шаблон</option>
+                {% for fileName in list %}
+                <option value='{{ fileName }}'>{{ fileName }}</option>
+                {{ author }}
+              </li>
+              {% endfor %}
+            </select>
             </td>
           </tr>
         </table>
-      </div>
-      <div class="modal-body">
+       
         {{ data}}
       </div>
       <div class="modal-footer">

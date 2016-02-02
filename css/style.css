@@ -100,3 +100,16 @@ td.res-table-fio{
 #new-visit-table td{
 	padding: 2px;
 }
+
+label.active{
+	font-weight: bolder;
+}
+
+#template-select-form{
+	font-size: 16px;
+}
+
+.form-control{
+	font-size: 16px;
+	color: black;
+}
