@@ -96,3 +96,7 @@ td.res-table-fio{
 .red {
 	color: red;	
 }
+
+#new-visit-table td{
+	padding: 2px;
+}

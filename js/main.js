@@ -195,6 +195,12 @@ App.events = function() {
 				}
 			}
 
+			// new visit btn
+			if (target.hasAttribute('data-new-visit-button')) {
+				var numPatient = target.getAttribute('data-new-visit-button')
+				App.newVisit(numPatient);
+			}
+
 
 			return false;
 		}
@@ -286,7 +292,8 @@ App.printResult.visitList = function(visits, numPatient) {
 	});
 
 	App.loadTemplate('visit-list', {
-		data: visits
+		data: visits,
+		numPatient: numPatient
 	}, "#full-" + numPatient);
 }
 
@@ -491,6 +498,27 @@ App.getEditFormData = function() {
 	data.gen = $('#gen-radio label.active input').val();
 	var bArr = data.birth.split('-');
 	data.birth = bArr[2] + '.' + bArr[1] + '.' + bArr[0];
-	console.log(data);
+	// console.log(data);
 	return data;
+}
+
+App.newVisit = function(numPatient) {
+	// console.log('New visit for patient: %s', numPatient);
+	Pat.findOne({
+		num: parseInt(numPatient)
+	}, function(err, doc) {
+		//doc = doc;
+		doc.fn = ucFirst(doc.fn);
+		doc.sn = ucFirst(doc.sn);
+		doc.tn = ucFirst(doc.tn);
+		var bArr = doc.birth.split('.');
+		doc.birth = bArr[2] + '-' + bArr[1] + '-' + bArr[0];
+		App.loadTemplate('new-visit', {
+			"doc": doc
+		}, "#modal-doc");
+		$('#new-visit-id').modal('toggle');
+	});
+
+
+
 }

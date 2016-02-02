@@ -34,8 +34,8 @@ Pat.newPatient = function(param, cb) {
 
 
 Pat.editPatient = function(num, param, cb) {
-	console.log('Edit Patietn: ' + num);
-	console.log(param);
+	//console.log('Edit Patietn: ' + num);
+	//console.log(param);
 	Pat.update({
 		num: num
 	}, {
@@ -43,7 +43,7 @@ Pat.editPatient = function(num, param, cb) {
 	}, {}, function(err, numReplaced) {
 		// numReplaced = 3
 		if (err) console.log(err);
-		console.log('numReplaced: %s', numReplaced);
+		// console.log('numReplaced: %s', numReplaced);
 		cb();
 	});
 
