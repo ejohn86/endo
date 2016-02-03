@@ -21,9 +21,14 @@ App.deferRequestBy = 300;
 
 
 App.init = function() {
-	App.templateList = fs.readdirSync(App.templatePath).map(function(item) {
-		return item.replace('.docx', '');
-	});
+
+	App.templateList = fs.readdirSync(App.templatePath)
+		.filter(function(item) {
+			return ~item.indexOf('docx');
+		})
+		.map(function(item) {
+			return item.replace('.docx', '');
+		});
 	App.loadTemplate('app', {
 		title: 'ma'
 	}, "#main-view");
@@ -166,7 +171,7 @@ App.events = function() {
 			//browse visit doc
 			if (target.hasAttribute('data-doc-link-browse')) {
 				var link = target.getAttribute('data-doc-link-browse');
-				App.browseDoc(link);
+				App.browseDoc.format(link);
 			}
 			// new patient
 			if (target.hasAttribute('data-new-patient')) {
@@ -238,7 +243,6 @@ App.events = function() {
 			if (!id) return;
 			return elem = document.getElementById('edit-btn-' + id);
 		}
-
 	}
 	// upper case first letter fio
 ucFirst = function(str) {
@@ -403,29 +407,38 @@ App.browseDoc = function(link) {
 		}).done();
 }
 
-App.browseDoc.format = function(html) {
-	// console.log(html);
-	var re = /\s*<p>\s*|\s*<\/p>(?:<p>)?\s*/;
-	html = html.split(re);
-	html = html.filter(function(val) {
-		return val.length > 0
-	});
-	//find description block
-	var descBlockNum;
-	for (var i = 0, l = html.length; i < l; i++) {
-		if (html[i].indexOf('Текст:') > -1) {
-			descBlockNum = i;
-			break;
-		}
-	}
-	var formatHtml = html.splice(0, descBlockNum - 1).join('<br>') + '';
+App.browseDoc.format = function(link) {
+	var absLink = path.resolve(App.baseDocsPath, link);
+	mammoth.extractRawText({
+			path: absLink
+		})
+		.then(function(result) {
+			var text = result.value; // The generated HTML
 
-	return {
-		arr: html,
-		index: descBlockNum
-	}
-	console.log(descBlockNum);
-	console.log(html);
+			//console.log(html);
+			var arr = text.split(/\n{4}/);
+
+			arr.forEach(function(item, i, arr) {
+				arr[i] = item.split(/\s*\n{2}\s*/)
+					.filter(function(item) {
+						return item.length
+					})
+					.map(function(item) {
+						return item.trim();
+					});
+			});
+			var html = '';
+
+			arr.forEach(function(item, i, arr) {
+				html += '<p>' + item.join('<br>') + '</p>';
+			});
+			App.loadTemplate('browse-doc', {
+				data: html,
+				link: absLink
+			}, "#modal-doc");
+			$('#myModal').modal('toggle');
+			var messages = result.messages; // Any messages, such as warnings during conversion
+		}).done();
 }
 
 App.newPatient = function() {
@@ -523,6 +536,50 @@ App.newVisit = function(numPatient) {
 			"list": App.templateList,
 			"doc": doc
 		}, "#modal-doc");
+		// listener for select-template
+		var tempSelect = document.getElementById('template-select-form');
+		tempSelect.onchange = function() {
+			var fileName = tempSelect.options[tempSelect.selectedIndex].value + '.docx';
+			App.browseTmpl(fileName);
+		}
 		$('#new-visit-id').modal('toggle');
 	});
+}
+
+
+App.browseTmpl = function(tmplFile) {
+	var absLink = path.resolve(App.templatePath, tmplFile);
+	// console.log(absLink);
+	mammoth.extractRawText({
+			path: absLink
+		})
+		.then(function(result) {
+			var html = result.value; // The generated HTML
+
+			//console.log(html);
+			var arr = html.split(/\n{4}/);
+
+			fs.writeFileSync(path.resolve(App.templatePath, 'html.txt'), html);
+			fs.writeFileSync(path.resolve(App.templatePath, 'tmp.txt'), arr.join('\n-------------------\n'));
+			arr.forEach(function(item, i, arr) {
+				arr[i] = item.split(/\s*\n{2}\s*/)
+					.filter(function(item) {
+						return item.length
+					})
+					.map(function(item) {
+						return item.trim();
+					});
+			});
+			var resultHtml = '';
+
+			arr.forEach(function(item, i, arr) {
+				resultHtml += '<p>' + item.join('<br>') + '</p>';
+			});
+
+			fs.writeFileSync(path.resolve(App.templatePath, 'tmp2.txt'), JSON.stringify(arr));
+			fs.writeFileSync(path.resolve(App.templatePath, 'html2.txt'), resultHtml);
+
+			$('#tmpl-content').html(resultHtml);
+			var messages = result.messages; // Any messages, such as warnings during conversion
+		}).done();
 }
