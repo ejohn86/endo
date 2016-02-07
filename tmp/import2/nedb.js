@@ -44,7 +44,7 @@ fs.readFile('../../../import/poset1.csv', function (err, data) {
 		o.num  = parseInt(row[0]);
 		o.type = row[1];
 		o.date = row[2];
-		o.link = row[3].substr(12).trim();
+		o.link = row[4].substr(12).trim();
 		visits.push(o);
 	}
 	console.log(visits.length);

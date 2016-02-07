@@ -4,6 +4,8 @@ var path = require('path');
 var async = require('async');
 var mammoth = require("mammoth");
 var fs = require('fs');
+var _ = require('underscore');
+var Docxtemplater = require('docxtemplater');
 //win.showDevTools();
 
 var App = {};
@@ -14,6 +16,7 @@ App.currentValue = '';
 App.baseDocsPath = '../docs/doc/';
 App.templatePath = '../docs/shab/'
 App.templateList = [];
+App.currentPatient = {};
 // defer request for fast change finded value
 App.onChangeInterval = null;
 App.deferRequestBy = 300;
@@ -207,6 +210,10 @@ App.events = function() {
 				}
 			}
 
+			if (target.hasAttribute('data-save-visit')) {
+				App.saveVisit();
+			}
+
 			// new visit btn
 			if (target.hasAttribute('data-new-visit-button')) {
 				var numPatient = target.getAttribute('data-new-visit-button')
@@ -355,11 +362,13 @@ App.search.patietnVisitList = function(numPatient, cb) {
 			cb(err, null);
 		}
 		docs.sort(function(a, b) {
-			var aDate = a.date,
-				bDate = b.date;
-			var aDateInt = parseInt(aDate.split('.')[2] + aDate.split('.')[1] + aDate.split('.')[0]);
-			var bDateInt = parseInt(bDate.split('.')[2] + bDate.split('.')[1] + bDate.split('.')[0]);
-			return bDateInt - aDateInt;
+			var aDate = a.time || new Date(parseInt(a.date.split('.')[2]), parseInt(a.date.split('.')[1]) - 1, parseInt(a.date.split('.')[0]));
+			var bDate = b.time || new Date(parseInt(b.date.split('.')[2]), parseInt(b.date.split('.')[1]) - 1, parseInt(b.date.split('.')[0]));
+			// var aDate = a.date,
+			// 	bDate = b.date;parseInt(aDate.split('.')[2])
+			// var aDateInt = parseInt(aDate.split('.')[2] + aDate.split('.')[1] + aDate.split('.')[0]);
+			// var bDateInt = parseInt(bDate.split('.')[2] + bDate.split('.')[1] + bDate.split('.')[0]);
+			return bDate - aDate;
 		});
 		cb(null, docs)
 	});
@@ -526,19 +535,21 @@ App.newVisit = function(numPatient) {
 	Pat.findOne({
 		num: parseInt(numPatient)
 	}, function(err, doc) {
-		//doc = doc;
 		doc.fn = ucFirst(doc.fn);
 		doc.sn = ucFirst(doc.sn);
 		doc.tn = ucFirst(doc.tn);
 		var bArr = doc.birth.split('.');
 		doc.birth = bArr[2] + '-' + bArr[1] + '-' + bArr[0];
+		App.currentPatient = doc;
 		App.loadTemplate('new-visit', {
 			"list": App.templateList,
+			"date": getFormatDate(),
 			"doc": doc
 		}, "#modal-doc");
 		// listener for select-template
 		var tempSelect = document.getElementById('template-select-form');
 		tempSelect.onchange = function() {
+			document.getElementById('data-save-btn').disabled = false;
 			var fileName = tempSelect.options[tempSelect.selectedIndex].value + '.docx';
 			App.browseTmpl(fileName);
 		}
@@ -559,8 +570,8 @@ App.browseTmpl = function(tmplFile) {
 			//console.log(html);
 			var arr = html.split(/\n{4}/);
 
-			fs.writeFileSync(path.resolve(App.templatePath, 'html.txt'), html);
-			fs.writeFileSync(path.resolve(App.templatePath, 'tmp.txt'), arr.join('\n-------------------\n'));
+			//fs.writeFileSync(path.resolve(App.templatePath, 'html.txt'), html);
+			// fs.writeFileSync(path.resolve(App.templatePath, 'tmp.txt'), arr.join('\n-------------------\n'));
 			arr.forEach(function(item, i, arr) {
 				arr[i] = item.split(/\s*\n{2}\s*/)
 					.filter(function(item) {
@@ -576,10 +587,99 @@ App.browseTmpl = function(tmplFile) {
 				resultHtml += '<p>' + item.join('<br>') + '</p>';
 			});
 
-			fs.writeFileSync(path.resolve(App.templatePath, 'tmp2.txt'), JSON.stringify(arr));
-			fs.writeFileSync(path.resolve(App.templatePath, 'html2.txt'), resultHtml);
+			// fs.writeFileSync(path.resolve(App.templatePath, 'tmp2.txt'), JSON.stringify(arr));
+			// fs.writeFileSync(path.resolve(App.templatePath, 'html2.txt'), resultHtml);
 
 			$('#tmpl-content').html(resultHtml);
 			var messages = result.messages; // Any messages, such as warnings during conversion
 		}).done();
+}
+
+App.saveVisit = function() {
+	console.log(JSON.stringify(App.currentPatient));
+	console.log(App.getNewVisitFormData());
+	var pat = App.currentPatient;
+
+	var newVisit = {};
+	var docname = App.getMaxDocName() + 1;
+	newVisit.num = App.currentPatient.num;
+	newVisit.type = App.getNewVisitFormData().typevisit;
+	newVisit.date = getFormatDate();
+	newVisit.time = (new Date()).getTime();
+	newVisit.link = newVisit.type + '/' + docname + '.docx';
+
+	//insert into db
+	Visit.insert(newVisit, function(err, newDoc) {
+		console.log('new visit added');
+		console.log(newDoc);
+	});
+
+	// reload visit list
+	App.search.patietnVisitList(App.currentPatient.num, function(err, doc) {
+		if (err) console.log(err);
+		App.printResult.visitList(doc, App.currentPatient.num);
+	});
+
+	//save docx file
+	var absTmplLink = path.resolve(App.templatePath, App.getNewVisitFormData().tmpl + '.docx');
+	var absSavedDocLink = path.resolve(App.baseDocsPath, newVisit.link);
+	console.log(absTmplLink);
+	console.log(absSavedDocLink);
+	var content = fs.readFileSync(absTmplLink, "binary")
+
+	doc = new Docxtemplater(content);
+	console.log(doc);
+	//set the templateVariables
+	var birth = pat.birth.split('-')[2] + '.' + pat.birth.split('-')[1] + '.' + pat.birth.split('-')[0];
+	doc.setData({
+		"fio": pat.fn + ' ' + pat.sn + ' ' + pat.tn,
+		"date": getFormatDate(),
+		"gen": pat.gen,
+		"birth": birth,
+		"addr": pat.addr
+	});
+
+	//apply them (replace all occurences of {first_name} by Hipp, ...)
+	doc.render();
+	var buf = doc.getZip()
+		.generate({
+			type: "nodebuffer"
+		});
+	fs.writeFileSync(absSavedDocLink, buf);
+	$('#new-visit-id').modal('hide');
+	App.openDoc(absSavedDocLink);
+
+
+}
+
+getFormatDate = function() {
+	var today = new Date();
+
+	var dd = today.getDate();
+	if (dd < 10) dd = '0' + dd;
+
+	var mm = today.getMonth() + 1;
+	if (mm < 10) mm = '0' + mm;
+
+	return dd + '.' + mm + '.' + today.getFullYear();
+}
+
+App.getNewVisitFormData = function() {
+	var form = {};
+	form.typevisit = $('#type-visit-radio label.active input').val();
+	var tempSelect = document.getElementById('template-select-form');
+	form.tmpl = tempSelect.options[tempSelect.selectedIndex].value;
+	return form;
+}
+
+App.getMaxDocName = function() {
+	var s = new Date();
+	var tmpArr = [];
+	for (var i = 1; i <= 3; i++) {
+		tmpArr = tmpArr.concat(fs.readdirSync(App.baseDocsPath + i + '/').map(function(item) {
+			return parseInt(item.replace('.docx', ''));
+		}))
+	}
+	return max = _.max(tmpArr);
+
 }
