@@ -1,14 +1,20 @@
 var Datastore = require('nedb');
-var dbPath = process.cwd() + "/db/";
+var path = require('path');
+// var nwPath = path.dirname(process.execPath);
+var nwPath = process.cwd();
+var dbPath = path.resolve(nwPath, "../db/");
 var s = new Date();
 
+console.log(path.resolve(dbPath, 'patient.db'));
+
+
 var Pat = new Datastore({
-	filename: dbPath + 'patient.db',
+	filename: path.resolve(dbPath, 'patient.db'),
 	autoload: true,
 });
 
 var Visit = new Datastore({
-	filename: dbPath + 'visit.db',
+	filename: path.resolve(dbPath, 'visit.db'),
 	autoload: true
 });
 

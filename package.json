@@ -2,10 +2,10 @@
   "name": "endo.nw",
   "main": "index.html",
   "window": {
-    "toolbar": false,
+    "toolbar": true,
     "width": 900,
     "height": 600,
-    "show": false
+    "show": true
   },
   "dependencies": {
     "async": "^1.5.0",

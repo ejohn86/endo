@@ -12,9 +12,13 @@ var App = {};
 var Pat = require('./js/db.js').Pat;
 var Visit = require('./js/db.js').Visit;
 
+// var nwPath = path.dirname(process.execPath);
+var nwPath = process.cwd();
 App.currentValue = '';
-App.baseDocsPath = '../docs/doc/';
-App.templatePath = '../docs/shab/'
+App.baseDocsPath = path.resolve(nwPath, '../docs/doc/');
+App.templatePath = path.resolve(nwPath, '../docs/shab/');
+console.log(App.baseDocsPath);
+console.log(App.templatePath);
 App.templateList = [];
 App.currentPatient = {};
 // defer request for fast change finded value
@@ -348,7 +352,7 @@ App.search = function(str, cb) {
 				cb(err, null);
 			}
 			cb(null, docs)
-				// alert(docs.length + ": " + t);
+			// console.log(docs.length);
 		});
 	}
 }
@@ -676,7 +680,7 @@ App.getMaxDocName = function() {
 	var s = new Date();
 	var tmpArr = [];
 	for (var i = 1; i <= 3; i++) {
-		tmpArr = tmpArr.concat(fs.readdirSync(App.baseDocsPath + i + '/').map(function(item) {
+		tmpArr = tmpArr.concat(fs.readdirSync(path.resolve(App.baseDocsPath, i.toString())).map(function(item) {
 			return parseInt(item.replace('.docx', ''));
 		}))
 	}
