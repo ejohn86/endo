@@ -15,10 +15,11 @@ var Visit = require('./js/db.js').Visit;
 // var nwPath = path.dirname(process.execPath);
 var nwPath = process.cwd();
 App.currentValue = '';
+App.currentModal = '';
 App.baseDocsPath = path.resolve(nwPath, '../docs/doc/');
 App.templatePath = path.resolve(nwPath, '../docs/shab/');
-console.log(App.baseDocsPath);
-console.log(App.templatePath);
+// console.log(App.baseDocsPath);
+// console.log(App.templatePath);
 App.templateList = [];
 App.currentPatient = {};
 // defer request for fast change finded value
@@ -83,6 +84,10 @@ App.botstrapHints = function() {
 	$(document).on('shown.bs.modal', '.modal', function() {
 		$(this).find('[autofocus]').focus();
 	});
+
+	$(document).on('hidden.bs.modal', '.modal', function() {
+		App.currentModal = '';
+	});
 }
 
 App.registerHotkeys = function() {
@@ -92,6 +97,14 @@ App.registerHotkeys = function() {
 		// New patient (Ctrl+N)
 		if (e.ctrlKey && e.keyCode == 'N'.charCodeAt(0) && !e.shiftKey) {
 			App.newPatient();
+			return false;
+		}
+
+		if (e.ctrlKey && e.keyCode === 13 && !e.shiftKey) {
+			console.log('App.currentModal: %s', App.currentModal);
+			if (App.currentModal == 'edit-patient') {
+				App.savePatient(document.getElementById('save-button-patient'));
+			}
 			return false;
 		}
 
@@ -192,31 +205,7 @@ App.events = function() {
 
 			// save edit data of patient
 			if (target.hasAttribute('data-save-button-patient')) {
-				if (App.validatePatientForm()) {
-					$('#edit-patietn-id').modal('hide');
-					// new patietn
-					if (target.hasAttribute('data-num-patient')) {
-						var num = parseInt(target.getAttribute('data-num-patient'));
-						if (num === 0) {
-							var formData = App.getEditFormData();
-							var inp = document.getElementById('find-input');
-							Pat.newPatient(formData, function() {
-								inp.value = formData.fn + ' ' + formData.sn + ' ' + formData.tn;
-								App.search(inp.value, function(err, res) {
-									App.printResult(res);
-								});
-							});
-						}
-						// edit
-						if (num > 0) {
-							Pat.editPatient(num, App.getEditFormData(), function() {
-								App.search(document.getElementById('find-input').value, function(err, res) {
-									App.printResult(res);
-								});
-							});
-						}
-					}
-				}
+				App.savePatient(target);
 			}
 
 			if (target.hasAttribute('data-save-visit')) {
@@ -357,7 +346,7 @@ App.search = function(str, cb) {
 				cb(err, null);
 			}
 			cb(null, docs)
-			// console.log(docs.length);
+				// console.log(docs.length);
 		});
 	}
 }
@@ -420,6 +409,7 @@ App.browseDoc = function(link) {
 				link: absLink
 			}, "#modal-doc");
 			$('#myModal').modal('toggle');
+			App.currentModal = 'browse-doc';
 			//fs.writeFileSync(__dirname + "/output.html", html);
 			var messages = result.messages; // Any messages, such as warnings during conversion
 		}).done();
@@ -455,12 +445,28 @@ App.browseDoc.format = function(link) {
 				link: absLink
 			}, "#modal-doc");
 			$('#myModal').modal('toggle');
+			App.currentModal = 'browse-doc';
 			var messages = result.messages; // Any messages, such as warnings during conversion
 		}).done();
 }
 
-App.modalFormEvents = function(){
-	
+App.modalFormEvents = function() {
+	var $targets = $('#myForm').find('input, button'),
+		steps = $targets.map(function() {
+			return $(this).attr('tabindex');
+		}).get();
+	$('#myForm').on('keypress', 'input', function(e) {
+		if (e.keyCode == 13) {
+			var current = parseInt($(this).attr('tabindex')),
+				next = (current + 1) % steps.length;
+			// next = steps[++current % steps.length];
+			// hack for radio
+			if (current == 5 || current == 6) {
+				next = 7
+			}
+			$targets.filter('[tabindex="' + next + '"]').focus();
+		}
+	});
 }
 
 App.newPatient = function() {
@@ -477,6 +483,8 @@ App.newPatient = function() {
 		"data": doc
 	}, "#modal-doc");
 	$('#edit-patietn-id').modal('toggle');
+	App.currentModal = 'edit-patient';
+	App.modalFormEvents();
 
 }
 
@@ -496,6 +504,8 @@ App.editPatient = function(id) {
 			"edit": true
 		}, "#modal-doc");
 		$('#edit-patietn-id').modal('toggle');
+		App.currentModal = 'edit-patient';
+		App.modalFormEvents();
 		// console.log(doc);
 	});
 }
@@ -529,6 +539,7 @@ App.validatePatientForm = function() {
 	});
 
 	errDiv.innerHTML = "Заполните поля: <span class='red'>" + notValidArr.join(', ') + '</span>';
+	console.log(false);
 	return false;
 }
 
@@ -543,6 +554,35 @@ App.getEditFormData = function() {
 	data.birth = bArr[2] + '.' + bArr[1] + '.' + bArr[0];
 	// console.log(data);
 	return data;
+}
+
+App.savePatient = function(target) {
+	console.log(target);
+	if (App.validatePatientForm()) {
+		$('#edit-patietn-id').modal('hide');
+		// new patietn
+		if (target.hasAttribute('data-num-patient')) {
+			var num = parseInt(target.getAttribute('data-num-patient'));
+			if (num === 0) {
+				var formData = App.getEditFormData();
+				var inp = document.getElementById('find-input');
+				Pat.newPatient(formData, function() {
+					inp.value = formData.fn + ' ' + formData.sn + ' ' + formData.tn;
+					App.search(inp.value, function(err, res) {
+						App.printResult(res);
+					});
+				});
+			}
+			// edit
+			if (num > 0) {
+				Pat.editPatient(num, App.getEditFormData(), function() {
+					App.search(document.getElementById('find-input').value, function(err, res) {
+						App.printResult(res);
+					});
+				});
+			}
+		}
+	}
 }
 
 App.newVisit = function(numPatient) {
@@ -568,6 +608,7 @@ App.newVisit = function(numPatient) {
 			App.browseTmpl(fileName);
 		}
 		$('#new-visit-id').modal('toggle');
+		App.currentModal = 'new-visit';
 	});
 }
 

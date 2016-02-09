@@ -20,11 +20,11 @@
               <td class='padding-table'>Пол</td>
               <td>
                 <div class="btn-group" data-toggle="buttons" id='gen-radio'>
-                  <label class="btn btn-default {% if data.gen == 'М' %} active{% endif %}">
-                    <input name="gen" value="М" type="radio" tabindex="5" required  id='gen-form' {% if data.gen == 'М' %}checked{% endif %}>Муж
+                  <label class="btn btn-default {% if data.gen == 'М' || !data.gen %} active{% endif %}">
+                    <input name="gen" value="М" type="radio" tabindex="5" required  id='gen-form' {% if data.gen == 'М' || !data.gen %}checked{% endif %}>Муж
                   </label>
                   <label class="btn btn-default {% if data.gen == 'Ж' %} active{% endif %}">
-                    <input name="gen" value="Ж" type="radio" required {% if data.gen == 'Ж' %}checked{% endif %}>Жен
+                    <input name="gen" value="Ж" type="radio" tabindex="6" required {% if data.gen == 'Ж' %}checked{% endif %}>Жен
                   </label>
                 </div>  
               </td>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
               <td>Адрес</td>
-              <td colspan="3"><input type="text" class="form-control"  tabindex="6" required pattern="(\s*\S+\s*)+" id='addr-form' value ="{{ data.addr }}"></td>
+              <td colspan="3"><input type="text" class="form-control"  tabindex="7" required pattern="(\s*\S+\s*)+" id='addr-form' value ="{{ data.addr }}"></td>
             </tr>
           </table>
 
@@ -45,7 +45,7 @@
         <div class="modal-footer">
           <div id="error-message"></div>
           <!-- <p>123 {{ data|json }}</p> -->
-          <button type="button" class="btn btn-primary" data-save-button-patient {% if edit %}data-num-patient="{{ data.num }}"{% else %}data-num-patient="0"{% endif %}>
+          <button type="button" class="btn btn-primary save-button" id='save-button-patient' data-save-button-patient {% if edit %}data-num-patient="{{ data.num }}"{% else %}data-num-patient="0"{% endif %}>
             <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
           </button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>

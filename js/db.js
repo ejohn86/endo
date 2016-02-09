@@ -5,7 +5,7 @@ var nwPath = process.cwd();
 var dbPath = path.resolve(nwPath, "../db/");
 var s = new Date();
 
-console.log(path.resolve(dbPath, 'patient.db'));
+// console.log(path.resolve(dbPath, 'patient.db'));
 
 
 var Pat = new Datastore({
