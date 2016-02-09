@@ -563,9 +563,9 @@ App.savePatient = function(target) {
 		// new patietn
 		if (target.hasAttribute('data-num-patient')) {
 			var num = parseInt(target.getAttribute('data-num-patient'));
+			var formData = App.getEditFormData();
+			var inp = document.getElementById('find-input');
 			if (num === 0) {
-				var formData = App.getEditFormData();
-				var inp = document.getElementById('find-input');
 				Pat.newPatient(formData, function() {
 					inp.value = formData.fn + ' ' + formData.sn + ' ' + formData.tn;
 					App.search(inp.value, function(err, res) {
@@ -576,6 +576,7 @@ App.savePatient = function(target) {
 			// edit
 			if (num > 0) {
 				Pat.editPatient(num, App.getEditFormData(), function() {
+					inp.value = formData.fn + ' ' + formData.sn + ' ' + formData.tn;
 					App.search(document.getElementById('find-input').value, function(err, res) {
 						App.printResult(res);
 					});
