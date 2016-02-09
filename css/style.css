@@ -6,7 +6,13 @@
 body{
 	/*background-color: #F7FAFC;*/
 	background-color: #DDE7ED;
+	font-size: 16px;
+	color: #000;
 	/*background-color: rgba(105, 188, 218, 0.21) !important;*/
+}
+
+a{
+	color: #0A4093;
 }
 
 #main-view{
@@ -19,7 +25,7 @@ body{
 }
 
 td.res-table-fio{
-	width: 300px;
+	width: 350px;
 	font-weight: bolder;
 }
 
@@ -64,6 +70,10 @@ td.res-table-fio{
 
 .modal-content {
 	background-color: #F7FAFC;
+}
+
+.modal-body{
+	font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .doc-icon{
