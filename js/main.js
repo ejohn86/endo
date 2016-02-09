@@ -194,15 +194,20 @@ App.events = function() {
 			if (target.hasAttribute('data-save-button-patient')) {
 				if (App.validatePatientForm()) {
 					$('#edit-patietn-id').modal('hide');
+					// new patietn
 					if (target.hasAttribute('data-num-patient')) {
 						var num = parseInt(target.getAttribute('data-num-patient'));
 						if (num === 0) {
-							Pat.newPatient(App.getEditFormData(), function() {
-								App.search(document.getElementById('find-input').value, function(err, res) {
+							var formData = App.getEditFormData();
+							var inp = document.getElementById('find-input');
+							Pat.newPatient(formData, function() {
+								inp.value = formData.fn + ' ' + formData.sn + ' ' + formData.tn;
+								App.search(inp.value, function(err, res) {
 									App.printResult(res);
 								});
 							});
 						}
+						// edit
 						if (num > 0) {
 							Pat.editPatient(num, App.getEditFormData(), function() {
 								App.search(document.getElementById('find-input').value, function(err, res) {
@@ -454,6 +459,10 @@ App.browseDoc.format = function(link) {
 		}).done();
 }
 
+App.modalFormEvents = function(){
+	
+}
+
 App.newPatient = function() {
 	var inp = document.getElementById('find-input');
 	var doc = {};
@@ -468,6 +477,7 @@ App.newPatient = function() {
 		"data": doc
 	}, "#modal-doc");
 	$('#edit-patietn-id').modal('toggle');
+
 }
 
 App.editPatient = function(id) {
