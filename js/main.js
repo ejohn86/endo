@@ -332,7 +332,7 @@ App.search = function(str, cb) {
 		}
 		if (l >= 3) {
 			findObj.fn = new RegExp('^' + searchArr[0] + "$", 'i'); // полная фамилия
-			findObj.sn = new RegExp('^' + searchArr[1] + "$", 'i'); // полное имя
+			findObj.sn = new RegExp('^' + searchArr[1], 'i'); // возможность искать по инициалам
 			findObj.tn = new RegExp('^' + searchArr[2], 'i');
 		}
 
