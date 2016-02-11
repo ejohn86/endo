@@ -38,7 +38,7 @@ App.init = function() {
 			return item.replace('.docx', '');
 		});
 	App.loadTemplate('app', {
-		title: 'ma'
+		version: require('./package.json').version
 	}, "#main-view");
 }
 
@@ -658,6 +658,7 @@ App.saveVisit = function() {
 
 	var newVisit = {};
 	var docname = App.getMaxDocName() + 1;
+	console.log(docname);
 	newVisit.num = App.currentPatient.num;
 	newVisit.type = App.getNewVisitFormData().typevisit;
 	newVisit.date = getFormatDate();
@@ -733,7 +734,8 @@ App.getMaxDocName = function() {
 	var tmpArr = [];
 	for (var i = 1; i <= 3; i++) {
 		tmpArr = tmpArr.concat(fs.readdirSync(path.resolve(App.baseDocsPath, i.toString())).map(function(item) {
-			return parseInt(item.replace('.docx', ''));
+			var num = parseInt(item.replace('.docx', ''));
+			return (typeof(num) === 'number' && !isNaN(num)) ? num : 0;
 		}))
 	}
 	return max = _.max(tmpArr);
