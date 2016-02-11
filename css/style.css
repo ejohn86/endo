@@ -1,8 +1,8 @@
 
 
-/*#find-input{
-	width: 100%;
-}*/
+#find-input{
+	font-size: 20px;
+}
 body{
 	/*background-color: #F7FAFC;*/
 	background-color: #DDE7ED;
@@ -83,7 +83,7 @@ td.res-table-fio{
 }
 
 .tooltip {
-    z-index: 9999;
+    z-index: 9999 !important;
     position: fixed;
 }
 
@@ -120,7 +120,7 @@ label.active{
 }
 
 .form-control{
-	font-size: 16px;
+	font-size: 18px;
 	color: black;
 }
 
@@ -131,4 +131,12 @@ label.active{
 	padding-right: 5px;
 	padding-bottom: 2px;
 	width: 100%;
+}
+
+.btn{
+	font-size: 16px;
+}
+
+.btn-sm{
+	font-size: 14px;
 }

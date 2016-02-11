@@ -45,9 +45,11 @@
         <div class="modal-footer">
           <div id="error-message"></div>
           <!-- <p>123 {{ data|json }}</p> -->
-          <button type="button" class="btn btn-primary save-button" id='save-button-patient' data-save-button-patient {% if edit %}data-num-patient="{{ data.num }}"{% else %}data-num-patient="0"{% endif %}>
+          <span data-toggle="tooltip" title="Ctrl+Enter" data-placement="right">
+            <button type="button" class="btn btn-primary save-button" id='save-button-patient' data-save-button-patient {% if edit %}data-num-patient="{{ data.num }}"{% else %}data-num-patient="0"{% endif %} >
             <span class="glyphicon glyphicon-floppy-disk"></span> Сохранить
           </button>
+          </span>          
           <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
         </div>
       </form>
