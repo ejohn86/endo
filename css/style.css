@@ -140,3 +140,7 @@ label.active{
 .btn-sm{
 	font-size: 14px;
 }
+
+.fl-left{
+	text-align: left;
+}

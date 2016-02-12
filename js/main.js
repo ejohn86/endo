@@ -191,7 +191,8 @@ App.events = function() {
 			//browse visit doc
 			if (target.hasAttribute('data-doc-link-browse')) {
 				var link = target.getAttribute('data-doc-link-browse');
-				App.browseDoc.format(link);
+				var id = target.getAttribute('data-id-visit');
+				App.browseDocFormat(link, id);
 			}
 			// new patient
 			if (target.hasAttribute('data-new-patient')) {
@@ -218,6 +219,11 @@ App.events = function() {
 				App.newVisit(numPatient);
 			}
 
+			// delete visit
+			if (target.hasAttribute('data-delete-visit')) {
+				var delId = target.getAttribute('data-delete-visit');
+				App.delVisit(delId);
+			}
 
 			return false;
 		}
@@ -395,7 +401,7 @@ App.openDoc = function(link, isAbsolut) {
 	gui.Shell.openItem(path.resolve(App.baseDocsPath, link));
 }
 
-App.browseDoc = function(link) {
+/*App.browseDoc = function(link) {
 	var absLink = path.resolve(App.baseDocsPath, link);
 	// console.log(absLink);
 	mammoth.convertToHtml({
@@ -406,48 +412,68 @@ App.browseDoc = function(link) {
 			//var format = App.browseDoc.format(html);
 			App.loadTemplate('browse-doc', {
 				data: html,
-				link: absLink
+				link: absLink,
 			}, "#modal-doc");
 			$('#myModal').modal('toggle');
 			App.currentModal = 'browse-doc';
 			//fs.writeFileSync(__dirname + "/output.html", html);
 			var messages = result.messages; // Any messages, such as warnings during conversion
 		}).done();
-}
+}*/
 
-App.browseDoc.format = function(link) {
+App.browseDocFormat = function(link, id) {
 	var absLink = path.resolve(App.baseDocsPath, link);
-	mammoth.extractRawText({
-			path: absLink
-		})
-		.then(function(result) {
-			var text = result.value; // The generated HTML
+	fs.stat(absLink, function(err, stat) {
+		//file is exist
+		if (err == null) {
+			mammoth.extractRawText({
+					path: absLink
+				})
+				.then(function(result) {
+					var text = result.value; // The generated HTML
 
-			//console.log(html);
-			var arr = text.split(/\n{4}/);
+					//console.log(html);
+					var arr = text.split(/\n{4}/);
 
-			arr.forEach(function(item, i, arr) {
-				arr[i] = item.split(/\s*\n{2}\s*/)
-					.filter(function(item) {
-						return item.length
-					})
-					.map(function(item) {
-						return item.trim();
+					arr.forEach(function(item, i, arr) {
+						arr[i] = item.split(/\s*\n{2}\s*/)
+							.filter(function(item) {
+								return item.length
+							})
+							.map(function(item) {
+								return item.trim();
+							});
 					});
-			});
-			var html = '';
+					var html = '';
 
-			arr.forEach(function(item, i, arr) {
-				html += '<p>' + item.join('<br>') + '</p>';
-			});
-			App.loadTemplate('browse-doc', {
-				data: html,
-				link: absLink
-			}, "#modal-doc");
-			$('#myModal').modal('toggle');
-			App.currentModal = 'browse-doc';
-			var messages = result.messages; // Any messages, such as warnings during conversion
-		}).done();
+					arr.forEach(function(item, i, arr) {
+						html += '<p>' + item.join('<br>') + '</p>';
+					});
+					printModal(html);
+					var messages = result.messages; // Any messages, such as warnings during conversion
+				}).done();
+			// file not found	
+		} else if (err.code == 'ENOENT') {
+			console.log('File not found: %s', absLink);
+			printModal('Файл не найден');
+
+		} else {
+			console.log('Some other error: ', err.code);
+			printModal('Файл не найден');
+		}
+	});
+
+	printModal = function(text) {
+		App.loadTemplate('browse-doc', {
+			data: text,
+			link: absLink,
+			id: id
+		}, "#modal-doc");
+		$('#browse-doc-id').modal('toggle');
+		App.currentModal = 'browse-doc';
+	}
+
+
 }
 
 App.modalFormEvents = function() {
@@ -740,4 +766,46 @@ App.getMaxDocName = function() {
 	}
 	return max = _.max(tmpArr);
 
+}
+
+App.delVisit = function(id) {
+	console.log("Удаляем посещение: %s", id);
+	Visit.findOne({
+		_id: id
+	}, function(err, doc) {
+		// delete docx file
+		console.log(doc);
+		var absLink = path.resolve(App.baseDocsPath, doc.link);
+		fs.stat(absLink, function(err, stat) {
+			if (err == null) {
+				fs.unlink(absLink, function(err) {
+					console.log('File deleted: %s', absLink);
+					delDb();
+				});
+			} else if (err.code == 'ENOENT') {
+				console.log('File not found: %s', absLink);
+				delDb();
+			} else {
+				console.log('Some other error: ', err.code);
+				delDb();
+			}
+		});
+		// delete from db
+		delDb = function() {
+			Visit.remove({
+				_id: id
+			}, {}, function(err, numRemoved) {
+				console.log('del DB row: %s, num removed: %s', id, numRemoved);
+				$('#browse-doc-id').modal('toggle');
+				var inp = document.getElementById('find-input');
+				var value = inp.value;
+				App.search(value, function(err, res) {
+					if (err) console.log(err);
+					App.printResult(res);
+				});
+
+			});
+		}
+
+	});
 }

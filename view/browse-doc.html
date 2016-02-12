@@ -1,4 +1,4 @@
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="browse-doc-id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -10,10 +10,19 @@
         {{ data}}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-doc-link-full='{{ link }}'>
-          <span class="glyphicon glyphicon-edit"></span> Редактировать
-        </button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        <div class="row">
+          <div class="col-md-4 fl-left">
+            <button type="button" class="btn btn-default" data-delete-visit='{{ id }}'>
+              <span class="glyphicon glyphicon-trash" style='color: red;' data-delete-visit='{{ id }}'> </span> <strong data-delete-visit='{{ id }}'>Удалить</strong>
+            </button>
+          </div>
+          <div class="col-md-8">
+            <button type="button" class="btn btn-primary" data-doc-link-full='{{ link }}'>
+              <span class="glyphicon glyphicon-edit" data-doc-link-full='{{ link }}'></span> Редактировать
+            </button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><strong>Закрыть</strong></button>
+          </div>
+        </div>        
       </div>
     </div>
   </div>
