@@ -65,13 +65,16 @@ App.loadTemplate = function(view, data, target) {
 };
 
 App.test = function() {
+	var absTmplLink = path.resolve(App.templatePath, '1ba.docx');
+	var absSavedDocLink = path.resolve(App.templatePath, '1c.docx');
+	console.log(absTmplLink);
+	console.log(absSavedDocLink);
+	var content = fs.readFileSync(absTmplLink, "binary");
+	
+	doc = new Docxtemplater(content);
+	console.log(doc);
 
-	// gui.Shell.showItemInFolder('package.json');
-	// gui.Shell.openItem('../docs/doc/1/1004.doc');
-	//console.log(path.resolve('../docs/doc/1/'));
-	//console.log('Current directory: ' + process.cwd());
 
-	// gui.Shell.openItem(path.resolve('../docs/doc/1/1004.doc'));
 }
 
 App.botstrapHints = function() {
@@ -706,12 +709,12 @@ App.saveVisit = function() {
 	//save docx file
 	var absTmplLink = path.resolve(App.templatePath, App.getNewVisitFormData().tmpl + '.docx');
 	var absSavedDocLink = path.resolve(App.baseDocsPath, newVisit.link);
-	console.log(absTmplLink);
-	console.log(absSavedDocLink);
+	// console.log(absTmplLink);
+	// console.log(absSavedDocLink);
 	var content = fs.readFileSync(absTmplLink, "binary")
 
 	doc = new Docxtemplater(content);
-	console.log(doc);
+	// console.log(doc);
 	//set the templateVariables
 	var birth = pat.birth.split('-')[2] + '.' + pat.birth.split('-')[1] + '.' + pat.birth.split('-')[0];
 	doc.setData({
