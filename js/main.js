@@ -47,7 +47,7 @@ window.onload = function() {
 	App.events();
 	App.botstrapHints();
 	App.registerHotkeys();
-	App.test();
+	//App.test();
 	gui.Window.get().show();
 }
 
