@@ -7,6 +7,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var Docxtemplater = require('docxtemplater');
 win.showDevTools();
+// console.log(1)
 
 var App = {};
 var Pat = require('./js/db.js').Pat;
