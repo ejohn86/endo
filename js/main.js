@@ -6,7 +6,7 @@ var mammoth = require("mammoth");
 var fs = require('fs');
 var _ = require('underscore');
 var Docxtemplater = require('docxtemplater');
-//win.showDevTools();
+win.showDevTools();
 
 var App = {};
 var Pat = require('./js/db.js').Pat;
@@ -47,7 +47,7 @@ window.onload = function() {
 	App.events();
 	App.botstrapHints();
 	App.registerHotkeys();
-	//App.test();
+	App.test();
 	gui.Window.get().show();
 }
 
@@ -65,14 +65,31 @@ App.loadTemplate = function(view, data, target) {
 };
 
 App.test = function() {
-	var absTmplLink = path.resolve(App.templatePath, '1ba.docx');
-	var absSavedDocLink = path.resolve(App.templatePath, '1c.docx');
-	console.log(absTmplLink);
-	console.log(absSavedDocLink);
-	var content = fs.readFileSync(absTmplLink, "binary");
-	
+
+	var contetnDocxFile = path.resolve(nwPath, './tmp/headers/' , '2.txt');
+	var file1 = path.resolve(nwPath, './tmp/headers/' , '1_2.docx');
+	var file2 = path.resolve(nwPath, './tmp/headers/' , '2.docx');
+
+	console.log(contetnDocxFile);
+	var xml = fs.readFileSync(contetnDocxFile).toString();
+	console.log(xml);
+
+	var content = fs.readFileSync(file1, "binary")
+
 	doc = new Docxtemplater(content);
-	console.log(doc);
+	// console.log(doc);
+	//set the templateVariables
+	doc.setData({
+		"rawXml": xml
+	});
+
+	//apply them (replace all occurences of {first_name} by Hipp, ...)
+	doc.render();
+	var buf = doc.getZip()
+		.generate({
+			type: "nodebuffer"
+		});
+	fs.writeFileSync(file2, buf);
 
 
 }
@@ -714,7 +731,7 @@ App.saveVisit = function() {
 	var content = fs.readFileSync(absTmplLink, "binary")
 
 	doc = new Docxtemplater(content);
-	// console.log(doc);
+	console.log(doc);
 	//set the templateVariables
 	var birth = pat.birth.split('-')[2] + '.' + pat.birth.split('-')[1] + '.' + pat.birth.split('-')[0];
 	doc.setData({
