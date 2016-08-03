@@ -68,8 +68,8 @@ App.loadTemplate = function(view, data, target) {
 App.test = function() {
 
 	var contetnDocxFile = path.resolve(nwPath, './tmp/headers/' , '2.txt');
-	var file1 = path.resolve(nwPath, './tmp/headers/' , '1_2.docx');
-	var file2 = path.resolve(nwPath, './tmp/headers/' , '2.docx');
+	var file1 = path.resolve(nwPath, './tmp/headers/' , '1_3.docx');
+	var file2 = path.resolve(nwPath, './tmp/headers/' , '2_3.docx');
 
 	console.log(contetnDocxFile);
 	var xml = fs.readFileSync(contetnDocxFile).toString();
