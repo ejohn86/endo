@@ -19,8 +19,11 @@ App.currentValue = '';
 App.currentModal = '';
 App.baseDocsPath = path.resolve(nwPath, '../docs/doc/');
 App.templatePath = path.resolve(nwPath, '../docs/shab/');
+App.templateHeaderPath = path.resolve(App.templatePath, './headers/');
+App.templateContentPath = path.resolve(App.templatePath, './content/');
 // console.log(App.baseDocsPath);
-// console.log(App.templatePath);
+console.log(App.templateHeaderPath);
+console.log(App.templateContentPath);
 App.templateList = [];
 App.currentPatient = {};
 // defer request for fast change finded value
@@ -48,7 +51,7 @@ window.onload = function() {
 	App.events();
 	App.botstrapHints();
 	App.registerHotkeys();
-	App.test();
+	//App.test();
 	gui.Window.get().show();
 }
 

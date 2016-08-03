@@ -35,14 +35,25 @@
           <tr>
             <td>Шаблон</td>
             <td>
-              <select class="form-control" id='template-select-form'>
-                <option value="" disabled selected>Выберите шаблон</option>
-                {% for fileName in list %}
-                <option value='{{ fileName }}'>{{ fileName }}</option>
-                {{ author }}
-              </li>
-              {% endfor %}
-            </select>
+              <table id='new-visit-tmpl-table'>
+                <tr>
+                  <td>
+                    <select class="form-control" id='template-select-form'>
+                      <option value="" disabled selected>Выберите шаблон</option>
+                      {% for fileName in list %}
+                      <option value='{{ fileName }}'>{{ fileName }}</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-control" id='template-select-form'>
+                      <option value="" selected>ЦРБ</option>
+                      <option value="">ВИТА</option>
+                      <option value="">Здоровье</option>
+                    </select>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
           <tr>
