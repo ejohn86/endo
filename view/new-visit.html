@@ -47,9 +47,9 @@
                   </td>
                   <td>
                     <select class="form-control" id='template-select-form'>
-                      <option value="" selected>ЦРБ</option>
-                      <option value="">ВИТА</option>
-                      <option value="">Здоровье</option>
+                      {% for fileName in headers %}
+                      <option value='{{ fileName }}'>{{ fileName }}</option>
+                      {% endfor %}
                     </select>
                   </td>
                 </tr>

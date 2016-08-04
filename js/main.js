@@ -21,10 +21,7 @@ App.baseDocsPath = path.resolve(nwPath, '../docs/doc/');
 App.templatePath = path.resolve(nwPath, '../docs/shab/');
 App.templateHeaderPath = path.resolve(App.templatePath, './headers/');
 App.templateContentPath = path.resolve(App.templatePath, './content/');
-// console.log(App.baseDocsPath);
-console.log(App.templateHeaderPath);
-console.log(App.templateContentPath);
-App.templateList = [];
+App.templateList = {};
 App.currentPatient = {};
 // defer request for fast change finded value
 App.onChangeInterval = null;
@@ -34,13 +31,21 @@ App.deferRequestBy = 300;
 
 App.init = function() {
 
-	App.templateList = fs.readdirSync(App.templatePath)
+	App.templateList.content = fs.readdirSync(App.templateContentPath)
 		.filter(function(item) {
 			return ~item.indexOf('docx');
 		})
 		.map(function(item) {
 			return item.replace('.docx', '');
 		});
+	App.templateList.headers = fs.readdirSync(App.templateHeaderPath)
+		.filter(function(item) {
+			return ~item.indexOf('docx');
+		})
+		.map(function(item) {
+			return item.replace('.docx', '');
+		});
+	console.log(App.templateList);
 	App.loadTemplate('app', {
 		version: require('./package.json').version
 	}, "#main-view");
@@ -647,7 +652,8 @@ App.newVisit = function(numPatient) {
 		doc.birth = bArr[2] + '-' + bArr[1] + '-' + bArr[0];
 		App.currentPatient = doc;
 		App.loadTemplate('new-visit', {
-			"list": App.templateList,
+			"list": App.templateList.content,
+			"headers": App.templateList.headers,
 			"date": getFormatDate(),
 			"doc": doc
 		}, "#modal-doc");
