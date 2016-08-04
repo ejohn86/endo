@@ -19,8 +19,12 @@ App.currentValue = '';
 App.currentModal = '';
 App.baseDocsPath = path.resolve(nwPath, '../docs/doc/');
 App.templatePath = path.resolve(nwPath, '../docs/shab/');
-App.templateHeaderPath = path.resolve(App.templatePath, './headers/');
-App.templateContentPath = path.resolve(App.templatePath, './content/');
+// App.templateHeaderPath = path.resolve(App.templatePath, './headers/');
+// App.templateContentPath = path.resolve(App.templatePath, './content/');
+App.templateHeaderPath = path.resolve(nwPath,  './tmp/tmpl/headers/');
+App.templateContentPath = path.resolve(nwPath, './tmp/tmpl/content/');
+console.log(App.templateHeaderPath);
+console.log(App.templateContentPath);
 App.templateList = {};
 App.currentPatient = {};
 // defer request for fast change finded value
